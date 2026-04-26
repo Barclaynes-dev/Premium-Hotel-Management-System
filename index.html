@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Haylo Hotel — Where Silence Meets Splendour. A premium luxury hotel experience crafted with refined elegance." />
+  <meta name="theme-color" content="#040807" />
+
+  <title>Haylo Hotel — Where Silence Meets Splendour</title>
+
+  <!-- Favicon placeholder -->
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23040807'/><rect x='12' y='12' width='8' height='8' fill='%23b08d57' transform='rotate(45 16 16)'/></svg>" />
+
+  <!-- Design System CSS -->
+  <link rel="stylesheet" href="assets/css/global.css" />
+  <link rel="stylesheet" href="assets/css/layout.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+
+  <!-- Existing project CSS (animation etc.) -->
+  <!-- <link rel="stylesheet" href="assets/css/animation.css" /> -->
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════
+       HEADER — Sticky Glassmorphism Navigation
+       ═══════════════════════════════════════════════════════ -->
+  <header id="site-header">
+    <div class="nav-wrapper">
+
+      <!-- Logo -->
+      <a href="index.html" class="nav-logo" aria-label="Haylo Hotel — Home">
+        <div class="nav-logo-emblem" aria-hidden="true"></div>
+        <div class="nav-logo-name">
+          <span class="name">Haylo</span>
+          <span class="tagline">Hotel &amp; Residences</span>
+        </div>
+      </a>
+
+      <!-- Navigation Links — horizontally centered via CSS absolute -->
+      <nav aria-label="Primary navigation">
+        <ul class="nav-links">
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="rooms.html">Suites</a></li>
+          <li><a href="heritage.html">Heritage</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="dashboard.html">Dashboard</a></li>
+        </ul>
+      </nav>
+
+      <!-- Right Actions -->
+      <div class="nav-actions">
+        <a href="tel:+256200000000" class="nav-tel" aria-label="Call us">+256 200 000 000</a>
+        <a href="rooms.html" class="nav-book-btn"><span>Reserve</span></a>
+        <!-- Hamburger (mobile only) -->
+        <button class="nav-hamburger" id="nav-toggle" aria-label="Open menu" aria-expanded="false"
+          aria-controls="nav-mobile-drawer">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+      </div>
+
+    </div><!-- /nav-wrapper -->
+
+    <!-- Mobile Drawer -->
+    <nav id="nav-mobile-drawer" class="nav-mobile-drawer" aria-label="Mobile navigation" aria-hidden="true">
+      <a href="index.html">Home</a>
+      <a href="rooms.html">Suites &amp; Rooms</a>
+      <a href="heritage.html">Our Heritage</a>
+      <a href="contact.html">Contact</a>
+      <a href="dashboard.html">Guest Dashboard</a>
+      <a href="rooms.html" class="nav-mobile-cta">Reserve a Suite</a>
+    </nav>
+  </header>
+
+
+  <main>
+
+    <!-- ═══════════════════════════════════════════════════════
+         §1  HERO — Full Viewport Cinematic Entry
+         ═══════════════════════════════════════════════════════ -->
+    <section id="hero" aria-labelledby="hero-title">
+
+      <!-- Background image with rich CSS fallback -->
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="hero-overlay" aria-hidden="true"></div>
+
+      <!-- Centered Hero Content -->
+      <div class="hero-content">
+        <p class="hero-overline">Est. 2018 &ensp;·&ensp; Kampala, Uganda</p>
+
+        <h1 class="hero-title" id="hero-title">Haylo</h1>
+        <p class="hero-title-sub">Hotel &amp; Residences</p>
+
+        <div class="hero-divider-line" aria-hidden="true"></div>
+
+        <p class="hero-tagline">Where Silence Meets Splendour</p>
+      </div>
+
+      <!-- Side stats — decorative (hidden on mobile) -->
+      <aside class="hero-stats" aria-label="At a glance">
+        <div class="hero-stat">
+          <span class="hero-stat-num">48</span>
+          <span class="hero-stat-sep"></span>
+          <span class="hero-stat-lbl">Signature Suites</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-num">6★</span>
+          <span class="hero-stat-sep"></span>
+          <span class="hero-stat-lbl">Experience Rating</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-num">15</span>
+          <span class="hero-stat-sep"></span>
+          <span class="hero-stat-lbl">Years of Legacy</span>
+        </div>
+      </aside>
+
+      <!-- Scroll indicator -->
+      <div class="hero-scroll" aria-hidden="true">
+        <span class="hero-scroll-label">Scroll</span>
+        <div class="hero-scroll-bar"></div>
+      </div>
+
+      <!-- ─── Check Availability Bar ─── -->
+      <div class="availability-bar" role="search" aria-label="Check room availability">
+
+        <div class="avail-field">
+          <label for="check-in">Check In</label>
+          <input type="date" id="check-in" name="check-in" placeholder="DD / MM / YYYY" aria-label="Check-in date" />
+        </div>
+
+        <div class="avail-divider" aria-hidden="true"></div>
+
+        <div class="avail-field">
+          <label for="check-out">Check Out</label>
+          <input type="date" id="check-out" name="check-out" placeholder="DD / MM / YYYY" aria-label="Check-out date" />
+        </div>
+
+        <div class="avail-divider" aria-hidden="true"></div>
+
+        <div class="avail-field">
+          <label for="guests">Guests</label>
+          <select id="guests" name="guests" aria-label="Number of guests">
+            <option value="1">1 Guest</option>
+            <option value="2" selected>2 Guests</option>
+            <option value="3">3 Guests</option>
+            <option value="4">4 Guests</option>
+            <option value="5">5+ Guests</option>
+          </select>
+        </div>
+
+        <div class="avail-divider" aria-hidden="true"></div>
+
+        <div class="avail-field">
+          <label for="room-type">Room Type</label>
+          <select id="room-type" name="room-type" aria-label="Room type preference">
+            <option value="any">Any Suite</option>
+            <option value="penthouse">Penthouse</option>
+            <option value="executive">Executive Suite</option>
+            <option value="garden">Garden Suite</option>
+            <option value="deluxe">Deluxe Room</option>
+          </select>
+        </div>
+
+        <button type="button" class="avail-submit" aria-label="Search availability">
+          Check Availability
+        </button>
+
+      </div><!-- /availability-bar -->
+
+    </section><!-- /#hero -->
+
+
+    <!-- ═══════════════════════════════════════════════════════
+         §2  OUR HERITAGE — Asymmetric Split Layout
+         ═══════════════════════════════════════════════════════ -->
+    <section id="heritage" aria-labelledby="heritage-title">
+      <div class="heritage-grid">
+
+        <!-- Image Side -->
+        <div class="heritage-image-wrap">
+          <!-- Decorative dot grid -->
+          <div class="heritage-dots" aria-hidden="true"></div>
+
+          <div class="heritage-img-frame">
+            <img src="assets/images/hero/heritage.jpg" alt="The grand lobby of Haylo Hotel, bathed in warm amber light"
+              class="heritage-img" loading="lazy" width="640" height="800" />
+          </div>
+
+          <!-- Floating stat card -->
+          <div class="heritage-stat-card" aria-label="Years of heritage: 15+">
+            <span class="stat-num">15+</span>
+            <span class="stat-lbl">Years of Heritage</span>
+          </div>
+        </div>
+
+        <!-- Text Side -->
+        <div class="heritage-text">
+          <span class="section-label">Our Heritage</span>
+
+          <h2 id="heritage-title">
+            A Story Written<br />in <em>Gold</em>
+          </h2>
+
+          <p class="lead">
+            Haylo was born from a singular conviction — that true luxury is not
+            built from marble and chandeliers alone, but from the quiet mastery
+            of every detail, and the warmth of every encounter.
+          </p>
+
+          <p class="body">
+            Founded in the heart of Kampala, our estate has grown into a sanctuary
+            for those who seek refuge from the noise of the world. Every suite,
+            every corridor, every curated amenity is an expression of our belief
+            that hospitality is a form of art — precise, personal, and enduring.
+          </p>
+
+          <!-- Key Pillars -->
+          <div class="heritage-pillars" aria-label="Heritage highlights">
+            <div class="pillar">
+              <span class="pillar-num">48</span>
+              <span class="pillar-lbl">Signature Suites</span>
+            </div>
+            <div class="pillar">
+              <span class="pillar-num">12</span>
+              <span class="pillar-lbl">Dining Venues</span>
+            </div>
+            <div class="pillar">
+              <span class="pillar-num">98%</span>
+              <span class="pillar-lbl">Guest Satisfaction</span>
+            </div>
+          </div>
+
+          <a href="about.html" class="btn-text">
+            Discover Our Story
+            <span class="arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+
+      </div><!-- /heritage-grid -->
+    </section><!-- /#heritage -->
+
+
+    <!-- ═══════════════════════════════════════════════════════
+         §3  SIGNATURE SUITES — Bento Grid
+         ═══════════════════════════════════════════════════════ -->
+    <section id="suites" aria-labelledby="suites-title">
+
+      <div class="section-header">
+        <span class="section-label">Signature Suites</span>
+        <h2 id="suites-title">Rooms Worthy<br />of the Exceptional</h2>
+        <p>
+          Each suite at Haylo is a private universe — conceived for those who
+          expect the extraordinary as a minimum.
+        </p>
+      </div>
+
+      <div class="bento-grid">
+
+        <!-- Penthouse — Large Card (left, full height) -->
+        <article class="bento-card bento-penthouse" aria-label="Penthouse Suite">
+          <div class="bento-card-bg" aria-hidden="true"></div>
+          <div class="bento-card-body">
+            <span class="bento-tag">Penthouse</span>
+            <h3 class="bento-card-title">The Sky<br />Residence</h3>
+            <div class="bento-card-detail">
+              <span>180m²</span>
+              <span>Private Terrace</span>
+              <span>Butler Service</span>
+              <span class="bento-price">From $1,200<small>/night</small></span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Executive Suite — Top Right -->
+        <article class="bento-card bento-executive" aria-label="Executive Suite">
+          <div class="bento-card-bg" aria-hidden="true"></div>
+          <div class="bento-card-body">
+            <span class="bento-tag">Executive</span>
+            <h3 class="bento-card-title">Grand<br />Executive</h3>
+            <div class="bento-card-detail">
+              <span>95m²</span>
+              <span>City View</span>
+              <span class="bento-price">From $580<small>/night</small></span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Garden Suite — Bottom Centre-Left -->
+        <article class="bento-card bento-garden" aria-label="Garden Suite">
+          <div class="bento-card-bg" aria-hidden="true"></div>
+          <div class="bento-card-body">
+            <span class="bento-tag">Garden</span>
+            <h3 class="bento-card-title">Garden<br />Terrace</h3>
+            <div class="bento-card-detail">
+              <span>72m²</span>
+              <span class="bento-price">From $380<small>/night</small></span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Deluxe — Bottom Right -->
+        <article class="bento-card bento-deluxe" aria-label="Deluxe Room">
+          <div class="bento-card-bg" aria-hidden="true"></div>
+          <div class="bento-card-body">
+            <span class="bento-tag">Deluxe</span>
+            <h3 class="bento-card-title">Deluxe<br />Retreat</h3>
+            <div class="bento-card-detail">
+              <span>48m²</span>
+              <span class="bento-price">From $240<small>/night</small></span>
+            </div>
+          </div>
+        </article>
+
+      </div><!-- /bento-grid -->
+
+      <!-- CTA below grid -->
+      <div style="text-align:center; margin-top:3.5rem; padding:0 var(--section-px);">
+        <a href="rooms.html" class="btn-gold">
+          <span>Explore All Suites</span>
+        </a>
+      </div>
+
+    </section><!-- /#suites -->
+
+
+    <!-- ═══════════════════════════════════════════════════════
+         §4  EXPERIENCES — 4-Column Feature Grid
+              (Added section — fits naturally here)
+         ═══════════════════════════════════════════════════════ -->
+    <section id="experiences" aria-labelledby="exp-title">
+      <div class="exp-container">
+
+        <div class="exp-header">
+          <div>
+            <span class="section-label">Curated Experiences</span>
+            <h2 id="exp-title">Every Sense,<br />Considered</h2>
+          </div>
+          <a href="about.html" class="btn-text">
+            All Amenities
+            <span class="arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+
+        <div class="exp-grid">
+
+          <!-- Fine Dining -->
+          <div class="exp-item">
+            <span class="exp-item-num">01</span>
+            <svg class="exp-icon-svg" viewBox="0 0 38 38" aria-hidden="true">
+              <path d="M10 8 L10 20 Q10 26 16 28 L16 34" stroke-width="0.8" stroke-linecap="round" />
+              <path d="M22 8 L22 34" stroke-width="0.8" stroke-linecap="round" />
+              <path d="M28 8 L28 16 Q28 22 22 22" stroke-width="0.8" stroke-linecap="round" />
+              <line x1="6" y1="8" x2="32" y2="8" stroke-width="0.5" stroke-dasharray="2,2" />
+            </svg>
+            <h3>Fine Dining</h3>
+            <p>Three signature restaurants — each a world unto itself — helmed by award-winning chefs committed to
+              seasonal, locally-sourced menus.</p>
+          </div>
+
+          <!-- Spa -->
+          <div class="exp-item">
+            <span class="exp-item-num">02</span>
+            <svg class="exp-icon-svg" viewBox="0 0 38 38" aria-hidden="true">
+              <circle cx="19" cy="14" r="6" stroke-width="0.8" />
+              <path d="M10 30 Q10 22 19 22 Q28 22 28 30" stroke-width="0.8" stroke-linecap="round" />
+              <path d="M6 34 L32 34" stroke-width="0.5" />
+              <line x1="19" y1="6" x2="19" y2="3" stroke-width="0.8" stroke-linecap="round" />
+            </svg>
+            <h3>Spa &amp; Wellness</h3>
+            <p>A 1,400m² sanctuary of stillness. Ancient rituals and modern therapies converge in a space designed
+              purely for restoration.</p>
+          </div>
+
+          <!-- Pool -->
+          <div class="exp-item">
+            <span class="exp-item-num">03</span>
+            <svg class="exp-icon-svg" viewBox="0 0 38 38" aria-hidden="true">
+              <rect x="4" y="20" width="30" height="12" rx="0" stroke-width="0.8" />
+              <path d="M4 24 Q10 20 16 24 Q22 28 28 24 Q34 20 38 24" stroke-width="0.8" stroke-linecap="round" />
+              <line x1="12" y1="20" x2="12" y2="10" stroke-width="0.8" />
+              <line x1="26" y1="20" x2="26" y2="10" stroke-width="0.8" />
+              <line x1="10" y1="10" x2="28" y2="10" stroke-width="0.8" />
+            </svg>
+            <h3>Infinity Pool</h3>
+            <p>Our rooftop infinity pool, suspended 18 floors above the city, dissolves the boundary between water, sky,
+              and horizon.</p>
+          </div>
+
+          <!-- Concierge -->
+          <div class="exp-item">
+            <span class="exp-item-num">04</span>
+            <svg class="exp-icon-svg" viewBox="0 0 38 38" aria-hidden="true">
+              <circle cx="19" cy="10" r="4" stroke-width="0.8" />
+              <path d="M6 34 L6 26 Q6 18 19 18 Q32 18 32 26 L32 34" stroke-width="0.8" />
+              <line x1="12" y1="26" x2="26" y2="26" stroke-width="0.5" />
+              <line x1="19" y1="18" x2="19" y2="34" stroke-width="0.5" />
+            </svg>
+            <h3>Personal Concierge</h3>
+            <p>A dedicated concierge team, available around the clock — anticipating every need before it is ever
+              expressed.</p>
+          </div>
+
+        </div><!-- /exp-grid -->
+      </div><!-- /exp-container -->
+    </section><!-- /#experiences -->
+
+
+    <!-- ═══════════════════════════════════════════════════════
+         §5  TESTIMONIALS — Guest Voices
+              (Added section — social proof, premium placement)
+         ═══════════════════════════════════════════════════════ -->
+    <section id="testimonials" aria-labelledby="testimonials-title">
+      <div class="testimonials-container">
+
+        <div style="text-align:center;">
+          <span class="section-label" style="justify-content:center;">Guest Voices</span>
+          <h2 id="testimonials-title">What Our Guests Say</h2>
+        </div>
+
+        <div class="testimonials-grid">
+
+          <!-- Card 1 -->
+          <article class="testimonial-card">
+            <div class="t-stars" aria-label="5 stars">
+              <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+            </div>
+            <span class="t-quote-mark" aria-hidden="true">&ldquo;</span>
+            <p class="t-text">
+              Haylo redefined what I thought a hotel could be. From the moment
+              our car arrived to the final farewell, every detail was handled with
+              a grace that felt entirely effortless.
+            </p>
+            <div class="t-author">
+              <div class="t-avatar" aria-hidden="true">A</div>
+              <div>
+                <span class="t-name">Amara Osei</span>
+                <span class="t-meta">Penthouse Suite, April 2026</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 2 -->
+          <article class="testimonial-card">
+            <div class="t-stars" aria-label="5 stars">
+              <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+            </div>
+            <span class="t-quote-mark" aria-hidden="true">&ldquo;</span>
+            <p class="t-text">
+              The spa alone is worth the journey. I have stayed at properties on
+              five continents and the level of quiet intention here is something
+              you simply cannot manufacture — it must be cultivated over years.
+            </p>
+            <div class="t-author">
+              <div class="t-avatar" aria-hidden="true">C</div>
+              <div>
+                <span class="t-name">Claire Beaumont</span>
+                <span class="t-meta">Garden Suite, March 2026</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 3 -->
+          <article class="testimonial-card">
+            <div class="t-stars" aria-label="5 stars">
+              <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+            </div>
+            <span class="t-quote-mark" aria-hidden="true">&ldquo;</span>
+            <p class="t-text">
+              An evening at Haylo's rooftop restaurant is the kind of memory that
+              stays with you indefinitely. The menu was extraordinary, but it was
+              the silence — the quality of the air — that I keep returning to.
+            </p>
+            <div class="t-author">
+              <div class="t-avatar" aria-hidden="true">J</div>
+              <div>
+                <span class="t-name">James Nakamura</span>
+                <span class="t-meta">Executive Suite, February 2026</span>
+              </div>
+            </div>
+          </article>
+
+        </div><!-- /testimonials-grid -->
+      </div><!-- /testimonials-container -->
+    </section><!-- /#testimonials -->
+
+
+    <!-- ═══════════════════════════════════════════════════════
+         §6  NEWSLETTER / STAY INFORMED
+              (Added section — elegant bottom CTA)
+         ═══════════════════════════════════════════════════════ -->
+    <section id="newsletter" aria-labelledby="newsletter-title">
+      <div class="newsletter-container">
+
+        <span class="section-label" style="justify-content:center;">Stay Connected</span>
+
+        <h2 id="newsletter-title">
+          Receive Private<br />Invitations
+        </h2>
+
+        <p>
+          Join the Haylo inner circle. Be the first to receive exclusive
+          offers, seasonal events, and curated travel inspiration — delivered
+          with the same discretion we extend to every guest.
+        </p>
+
+        <div class="newsletter-form" role="search">
+          <input type="email" id="newsletter-email" name="email" class="newsletter-input"
+            placeholder="Your email address" aria-label="Email address for newsletter" autocomplete="email" />
+          <button type="button" class="newsletter-btn" aria-label="Subscribe to newsletter">
+            Subscribe
+          </button>
+        </div>
+
+        <span class="newsletter-note">
+          Your privacy is our standard. Unsubscribe at any time.
+        </span>
+
+      </div>
+    </section><!-- /#newsletter -->
+
+  </main><!-- /main -->
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       FOOTER — Minimalist, Structured, Dark
+       ═══════════════════════════════════════════════════════ -->
+  <footer id="site-footer">
+
+    <div class="footer-top">
+
+      <!-- Brand Column -->
+      <div class="footer-brand">
+        <span class="footer-logo">Haylo Hotel</span>
+        <p class="tagline">
+          A sanctuary for those who seek the exceptional. Kampala's most
+          distinguished address — where every detail is an act of intention.
+        </p>
+        <div class="footer-social" aria-label="Social media links">
+          <a href="#" aria-label="Follow us on Instagram">Ig</a>
+          <a href="#" aria-label="Follow us on Facebook">Fb</a>
+          <a href="#" aria-label="Follow us on Twitter / X">X</a>
+          <a href="#" aria-label="Connect on LinkedIn">Li</a>
+        </div>
+      </div>
+
+      <!-- Navigation Column -->
+      <div class="footer-col">
+        <span class="footer-col-title">Navigate</span>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="rooms.html">Suites &amp; Rooms</a></li>
+          <li><a href="about.html">Our Heritage</a></li>
+          <li><a href="dashboard.html">Guest Dashboard</a></li>
+          <li><a href="admin.html">Administration</a></li>
+        </ul>
+      </div>
+
+      <!-- Experiences Column -->
+      <div class="footer-col">
+        <span class="footer-col-title">Experiences</span>
+        <ul>
+          <li><a href="#">Fine Dining</a></li>
+          <li><a href="#">Spa &amp; Wellness</a></li>
+          <li><a href="#">Infinity Pool</a></li>
+          <li><a href="#">Concierge Services</a></li>
+          <li><a href="#">Events &amp; Weddings</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact Column -->
+      <div class="footer-col">
+        <span class="footer-col-title">Contact</span>
+        <address>
+          <p>Plot 42, Nakasero Hill<br />Kampala, Uganda</p>
+          <br />
+          <p>
+            <a href="tel:+256200000000">+256 200 000 000</a>
+          </p>
+          <p>
+            <a href="mailto:hello@haylohotel.com">hello@haylohotel.com</a>
+          </p>
+          <br />
+          <p>Open 24 hours, every day</p>
+        </address>
+      </div>
+
+    </div><!-- /footer-top -->
+
+    <div class="footer-bottom">
+      <div class="footer-bottom-inner">
+        <p class="footer-copyright">
+          &copy; 2026 Haylo Hotel &amp; Residences. All rights reserved.
+        </p>
+        <nav class="footer-legal" aria-label="Legal links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Cookie Preferences</a>
+        </nav>
+      </div>
+    </div>
+
+  </footer><!-- /footer -->
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       MINIMAL JS — Nav toggle only (no animation/motion JS)
+       ═══════════════════════════════════════════════════════ -->
+
+  <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>

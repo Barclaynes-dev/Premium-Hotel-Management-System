@@ -1,0 +1,1570 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+        content="Haylo Hotel — Signature Suites & Rooms. Discover our curated collection of Presidential Suites, Lakeside Retreats, and Standard Luxury rooms." />
+    <meta name="theme-color" content="#040807" />
+
+    <title>Suites & Rooms — Haylo Hotel</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23040807'/><rect x='12' y='12' width='8' height='8' fill='%23b08d57' transform='rotate(45 16 16)'/></svg>" />
+
+    <!-- Global Design System -->
+    <link rel="stylesheet" href="assets/css/global.css" />
+    <link rel="stylesheet" href="assets/css/layout.css" />
+    <link rel="stylesheet" href="assets/css/components.css" />
+
+    <!-- ═══════════════════════════════════════════════════════
+       SUITES PAGE — SPECIFIC CSS
+       All layout and component classes unique to this page.
+       Never overrides global CSS variables.
+       ═══════════════════════════════════════════════════════ -->
+    <style>
+        /* ── Page Hero Banner ───────────────────────────────── */
+        .suites-hero {
+            position: relative;
+            height: 52vh;
+            min-height: 380px;
+            max-height: 560px;
+            display: flex;
+            align-items: flex-end;
+            overflow: hidden;
+            padding-bottom: 0;
+        }
+
+        .suites-hero-bg {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 50% 30%, rgba(10, 43, 34, 0.4) 0%, transparent 65%),
+                linear-gradient(180deg, rgba(4, 8, 7, 0.3) 0%, rgba(4, 8, 7, 0.5) 55%, rgba(4, 8, 7, 0.98) 100%),
+                linear-gradient(135deg, #0a2218 0%, #040e09 40%, #040807 100%);
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Thin diagonal gold rule — purely decorative */
+        .suites-hero-bg::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                repeating-linear-gradient(135deg,
+                    rgba(176, 141, 87, 0.022) 0px,
+                    rgba(176, 141, 87, 0.022) 1px,
+                    transparent 1px,
+                    transparent 60px);
+            pointer-events: none;
+        }
+
+        .suites-hero-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: var(--max-w);
+            margin: 0 auto;
+            padding: 0 var(--section-px) 4rem;
+        }
+
+        .suites-hero-content h1 {
+            font-size: clamp(3rem, 7vw, 5.5rem);
+            font-weight: var(--fw-regular);
+            letter-spacing: 0.04em;
+            line-height: 0.95;
+            margin: 0.65rem 0 0.85rem;
+        }
+
+        .suites-hero-content .hero-sub {
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--clr-text-secondary);
+            font-weight: var(--fw-light);
+        }
+
+        .suites-hero-content .hero-count {
+            position: absolute;
+            right: var(--section-px);
+            bottom: 4rem;
+            text-align: right;
+        }
+
+        .suites-hero-content .hero-count .num {
+            font-family: var(--ff-serif);
+            font-size: 4.5rem;
+            color: var(--clr-text-ghost);
+            line-height: 1;
+            font-weight: var(--fw-regular);
+            display: block;
+        }
+
+        .suites-hero-content .hero-count .lbl {
+            font-size: 0.55rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--clr-text-muted);
+        }
+
+
+        /* ── Sticky Filter Bar ──────────────────────────────── */
+        .filter-bar {
+            position: sticky;
+            top: var(--nav-h);
+            z-index: 500;
+            background: rgba(4, 8, 7, 0.75);
+            backdrop-filter: blur(28px) saturate(160%);
+            -webkit-backdrop-filter: blur(28px) saturate(160%);
+            border-bottom: 0.5px solid var(--clr-border);
+            padding: 1.25rem 0;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .filter-bar.elevated {
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.55);
+        }
+
+        .filter-bar-inner {
+            display: grid;
+            grid-template-columns: 1fr auto auto;
+            align-items: center;
+            gap: 2rem;
+            max-width: var(--max-w);
+            margin: 0 auto;
+            padding: 0 var(--section-px);
+        }
+
+        /* Search Input */
+        .filter-search-wrap {
+            position: relative;
+        }
+
+        .filter-search-icon {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 14px;
+            height: 14px;
+            opacity: 0.35;
+            pointer-events: none;
+        }
+
+        .filter-search-icon path,
+        .filter-search-icon circle {
+            stroke: var(--clr-gold);
+            stroke-width: 1.5;
+            fill: none;
+        }
+
+        #suite-search {
+            background: transparent;
+            border: none;
+            border-bottom: 0.5px solid var(--clr-border);
+            padding: 0.5rem 0 0.5rem 1.75rem;
+            width: 100%;
+            color: var(--clr-text-primary);
+            font-family: var(--ff-sans);
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            font-weight: var(--fw-light);
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        #suite-search::placeholder {
+            color: var(--clr-text-muted);
+            font-size: 0.68rem;
+            letter-spacing: 0.15em;
+        }
+
+        #suite-search:focus {
+            border-bottom-color: var(--clr-gold);
+        }
+
+        /* Price Range Block */
+        .filter-price-block {
+            display: flex;
+            flex-direction: column;
+            gap: 0.55rem;
+            min-width: 260px;
+        }
+
+        .filter-price-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .filter-price-label .lbl {
+            font-size: 0.5rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--clr-gold);
+            font-weight: var(--fw-semibold);
+        }
+
+        .filter-price-label .vals {
+            font-size: 0.62rem;
+            color: var(--clr-text-secondary);
+            font-weight: var(--fw-light);
+            letter-spacing: 0.04em;
+            font-family: var(--ff-sans);
+        }
+
+        /* Dual Range Slider */
+        .dual-range-wrap {
+            position: relative;
+            height: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .dual-range-track {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--clr-border);
+            z-index: 0;
+        }
+
+        .dual-range-fill {
+            position: absolute;
+            height: 1px;
+            background: var(--clr-gold);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .range-input {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: none;
+            pointer-events: none;
+            -webkit-appearance: none;
+            appearance: none;
+            outline: none;
+            z-index: 2;
+        }
+
+        .range-input::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            background: var(--clr-obsidian);
+            border: 1px solid var(--clr-gold);
+            border-radius: 0;
+            cursor: pointer;
+            pointer-events: all;
+            transform: rotate(45deg);
+            transition: background 0.2s ease, border-color 0.2s ease;
+        }
+
+        .range-input::-webkit-slider-thumb:hover {
+            background: var(--clr-gold);
+        }
+
+        .range-input::-moz-range-thumb {
+            width: 14px;
+            height: 14px;
+            background: var(--clr-obsidian);
+            border: 1px solid var(--clr-gold);
+            border-radius: 0;
+            cursor: pointer;
+            pointer-events: all;
+            transform: rotate(45deg);
+        }
+
+        /* Reset Button */
+        .filter-reset-btn {
+            font-family: var(--ff-sans);
+            font-size: 0.55rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--clr-text-muted);
+            background: none;
+            border: 0.5px solid var(--clr-border);
+            padding: 0.55rem 1.1rem;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.25s ease;
+        }
+
+        .filter-reset-btn:hover {
+            color: var(--clr-gold);
+            border-color: var(--clr-gold);
+        }
+
+        /* Active filter count badge */
+        .filter-active-badge {
+            display: none;
+            width: 16px;
+            height: 16px;
+            background: var(--clr-gold);
+            color: var(--clr-obsidian);
+            font-size: 0.5rem;
+            font-weight: var(--fw-bold);
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-left: 0.5rem;
+        }
+
+        .filter-active-badge.visible {
+            display: inline-flex;
+        }
+
+
+        /* ── Suites Main Body ───────────────────────────────── */
+        .suites-body {
+            max-width: var(--max-w);
+            margin: 0 auto;
+            padding: 5.5rem var(--section-px) 8rem;
+        }
+
+        /* "No results" message */
+        .no-results-msg {
+            display: none;
+            text-align: center;
+            padding: 5rem 2rem;
+        }
+
+        .no-results-msg.visible {
+            display: block;
+        }
+
+        .no-results-msg h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .no-results-msg p {
+            font-size: 0.8rem;
+            color: var(--clr-text-muted);
+        }
+
+
+        /* ── Room Category Section ──────────────────────────── */
+        .room-category {
+            margin-bottom: 7rem;
+        }
+
+        .room-category:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Category header */
+        .room-category-header {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: flex-end;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 0.5px solid var(--clr-border);
+            position: relative;
+        }
+
+        /* Animated line that grows on page load */
+        .room-category-header::after {
+            content: '';
+            position: absolute;
+            bottom: -0.5px;
+            left: 0;
+            width: 80px;
+            height: 1px;
+            background: var(--clr-gold);
+        }
+
+        .room-category-meta {}
+
+        .room-category-name {
+            font-size: clamp(1.6rem, 3vw, 2.4rem);
+            font-weight: var(--fw-regular);
+            letter-spacing: 0.03em;
+            line-height: 1.1;
+            margin: 0.5rem 0 0.6rem;
+        }
+
+        .room-category-desc {
+            font-size: 0.78rem;
+            color: var(--clr-text-muted);
+            max-width: 520px;
+            line-height: 1.85;
+        }
+
+        .room-category-count {
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .room-category-count .c-num {
+            font-family: var(--ff-serif);
+            font-size: 2.6rem;
+            color: var(--clr-text-ghost);
+            display: block;
+            line-height: 1;
+        }
+
+        .room-category-count .c-lbl {
+            font-size: 0.5rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--clr-text-muted);
+        }
+
+
+        /* ── Room Card Grid ─────────────────────────────────── */
+        .rooms-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--clr-border);
+        }
+
+        /* For Presidential — larger 2-column featured layout */
+        .rooms-grid.featured {
+            grid-template-columns: 1.55fr 1fr;
+        }
+
+        .rooms-grid.featured .room-card:first-child {
+            grid-row: span 1;
+        }
+
+        /* When hidden by filter */
+        .room-card.hidden {
+            display: none;
+        }
+
+        /* When category has all cards hidden */
+        .room-category.all-hidden {
+            display: none;
+        }
+
+
+        /* ── Room Card ──────────────────────────────────────── */
+        .room-card {
+            position: relative;
+            background: var(--clr-obsidian);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            cursor: default;
+        }
+
+        /* Image wrapper */
+        .room-card-img-wrap {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 4 / 3;
+            flex-shrink: 0;
+        }
+
+        .rooms-grid.featured .room-card:first-child .room-card-img-wrap {
+            aspect-ratio: 3 / 2;
+        }
+
+        .room-card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            background-color: var(--clr-emerald-glow);
+            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            /* Lush CSS gradient fallback per card personality */
+            background-image: linear-gradient(160deg,
+                    var(--card-grad-a, #122b1e) 0%,
+                    var(--card-grad-b, #071510) 100%);
+        }
+
+        .room-card:hover .room-card-img {
+            transform: scale(1.05);
+        }
+
+        /* Image overlay */
+        .room-card-img-wrap::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top,
+                    rgba(4, 8, 7, 0.65) 0%,
+                    rgba(4, 8, 7, 0.15) 45%,
+                    transparent 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Price tag floating over image */
+        .room-card-price-tag {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            z-index: 2;
+            background: rgba(4, 8, 7, 0.75);
+            backdrop-filter: blur(12px);
+            border: 0.5px solid var(--clr-border);
+            padding: 0.5rem 0.85rem;
+        }
+
+        .room-card-price-tag .price-val {
+            font-family: var(--ff-serif);
+            font-size: 0.82rem;
+            color: var(--clr-gold-light);
+            display: block;
+            line-height: 1.1;
+        }
+
+        .room-card-price-tag .price-per {
+            font-size: 0.48rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--clr-text-muted);
+            display: block;
+            margin-top: 2px;
+        }
+
+        /* Card body (text + actions) */
+        .room-card-body {
+            padding: 1.75rem 2rem 2rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            border-top: 0.5px solid transparent;
+            transition: border-color 0.35s ease;
+        }
+
+        .room-card:hover .room-card-body {
+            border-top-color: var(--clr-border);
+        }
+
+        .room-card-tag {
+            font-size: 0.5rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--clr-gold);
+            font-weight: var(--fw-semibold);
+        }
+
+        .room-card-name {
+            font-family: var(--ff-serif);
+            font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+            font-weight: var(--fw-regular);
+            color: var(--clr-text-primary);
+            line-height: 1.15;
+            letter-spacing: 0.02em;
+        }
+
+        /* Specs row */
+        .room-card-specs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem 1.5rem;
+            padding-top: 0.75rem;
+            border-top: 0.5px solid var(--clr-border);
+        }
+
+        .spec-item {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .spec-icon {
+            width: 12px;
+            height: 12px;
+            flex-shrink: 0;
+            stroke: var(--clr-gold);
+            fill: none;
+            opacity: 0.7;
+        }
+
+        .spec-text {
+            font-size: 0.62rem;
+            color: var(--clr-text-muted);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        /* Action row */
+        .room-card-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: auto;
+            padding-top: 0.5rem;
+        }
+
+        /* "Book Now" – solid gold, prominent */
+        .btn-book-now {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            background: var(--clr-gold);
+            color: var(--clr-obsidian);
+            font-family: var(--ff-sans);
+            font-size: 0.58rem;
+            font-weight: var(--fw-semibold);
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            text-align: center;
+            border: 1px solid var(--clr-gold);
+            cursor: pointer;
+            transition: background 0.3s ease, color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+        }
+
+        .btn-book-now:hover {
+            background: var(--clr-gold-bright);
+        }
+
+        /* "Explore Suite" – ghost, outline */
+        .btn-explore {
+            padding: 0.75rem 1.1rem;
+            background: transparent;
+            color: var(--clr-text-secondary);
+            font-family: var(--ff-sans);
+            font-size: 0.56rem;
+            font-weight: var(--fw-medium);
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            border: 0.5px solid var(--clr-border);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .btn-explore:hover {
+            color: var(--clr-gold);
+            border-color: var(--clr-gold);
+        }
+
+        .btn-explore-arrow {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-explore:hover .btn-explore-arrow {
+            transform: translateX(4px);
+        }
+
+
+        /* ── Slide-Out Drawer ───────────────────────────────── */
+
+        /* Overlay */
+        .drawer-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(4, 8, 7, 0.72);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 1800;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.45s ease;
+        }
+
+        .drawer-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* Drawer panel */
+        #room-drawer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 70vw;
+            max-width: 900px;
+            height: 100vh;
+            z-index: 1900;
+            display: flex;
+            flex-direction: column;
+            background: rgba(5, 11, 9, 0.97);
+            backdrop-filter: blur(30px) saturate(150%);
+            -webkit-backdrop-filter: blur(30px) saturate(150%);
+            border-left: 0.5px solid var(--clr-border);
+            transform: translateX(100%);
+            transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            overflow: hidden;
+        }
+
+        #room-drawer.open {
+            transform: translateX(0);
+        }
+
+        /* Inner scroll container */
+        .drawer-scroll {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: thin;
+            scrollbar-color: var(--clr-border) transparent;
+        }
+
+        .drawer-scroll::-webkit-scrollbar {
+            width: 2px;
+        }
+
+        .drawer-scroll::-webkit-scrollbar-thumb {
+            background: var(--clr-border);
+        }
+
+        /* ─ Drawer Top Bar (sticky) ─ */
+        .drawer-topbar {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.5rem 2.5rem;
+            background: rgba(4, 8, 7, 0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 0.5px solid var(--clr-border);
+            flex-shrink: 0;
+        }
+
+        .drawer-topbar-left {}
+
+        .drawer-suite-cat {
+            font-size: 0.5rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--clr-gold);
+            font-weight: var(--fw-semibold);
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        .drawer-suite-name {
+            font-family: var(--ff-serif);
+            font-size: 1.35rem;
+            color: var(--clr-text-primary);
+            font-weight: var(--fw-regular);
+            letter-spacing: 0.02em;
+        }
+
+        /* Close Button */
+        .drawer-close-btn {
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: 0.5px solid var(--clr-border);
+            color: var(--clr-text-secondary);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            flex-shrink: 0;
+        }
+
+        .drawer-close-btn:hover {
+            border-color: var(--clr-gold);
+            color: var(--clr-gold);
+        }
+
+        .drawer-close-btn svg {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            stroke-width: 1.5;
+            fill: none;
+        }
+
+        /* ─ Drawer Media Gallery ─ */
+        .drawer-gallery {
+            padding: 2rem 2.5rem 0;
+        }
+
+        .drawer-gallery-main {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            background: var(--clr-emerald-deep);
+            border: 0.5px solid var(--clr-border);
+            position: relative;
+        }
+
+        .drawer-gallery-main img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            background-image: linear-gradient(135deg, #1a3d2b 0%, #071510 100%);
+        }
+
+        .drawer-gallery-thumb-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .drawer-gallery-thumb {
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            border: 0.5px solid var(--clr-border);
+            background: var(--clr-emerald-deep);
+            cursor: pointer;
+            transition: border-color 0.25s ease;
+        }
+
+        .drawer-gallery-thumb:hover {
+            border-color: var(--clr-gold);
+        }
+
+        .drawer-gallery-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+            background-image: linear-gradient(160deg, #0f2a1a 0%, #040807 100%);
+        }
+
+        .drawer-gallery-thumb:hover img {
+            transform: scale(1.06);
+        }
+
+        /* ─ Drawer Details ─ */
+        .drawer-details {
+            padding: 2.5rem 2.5rem;
+        }
+
+        .drawer-price-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 2rem;
+            border-bottom: 0.5px solid var(--clr-border);
+            margin-bottom: 2rem;
+        }
+
+        .drawer-price {
+            font-family: var(--ff-serif);
+            font-size: 1.6rem;
+            color: var(--clr-gold);
+            font-weight: var(--fw-regular);
+        }
+
+        .drawer-price .per {
+            font-family: var(--ff-sans);
+            font-size: 0.58rem;
+            color: var(--clr-text-muted);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-weight: var(--fw-light);
+            margin-left: 0.4rem;
+        }
+
+        .drawer-spec-pills {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .drawer-pill {
+            padding: 0.35rem 0.85rem;
+            border: 0.5px solid var(--clr-border);
+            font-size: 0.55rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--clr-text-muted);
+        }
+
+        .drawer-desc {
+            font-size: 0.8rem;
+            line-height: 2.05;
+            color: var(--clr-text-muted);
+            font-weight: var(--fw-light);
+            margin-bottom: 2.5rem;
+        }
+
+        /* Facilities Grid */
+        .drawer-facilities-title {
+            font-size: 0.5rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--clr-gold);
+            font-weight: var(--fw-semibold);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+        }
+
+        .drawer-facilities-title::after {
+            content: '';
+            flex: 1;
+            height: 0.5px;
+            background: var(--clr-border);
+        }
+
+        .drawer-facilities-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            border: 0.5px solid var(--clr-border);
+            margin-bottom: 2.5rem;
+        }
+
+        .facility-item {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            padding: 0.85rem 1.1rem;
+            border-bottom: 0.5px solid var(--clr-border);
+            border-right: 0.5px solid var(--clr-border);
+            transition: background 0.2s ease;
+        }
+
+        .facility-item:nth-child(2n) {
+            border-right: none;
+        }
+
+        .facility-item:nth-last-child(-n+2) {
+            border-bottom: none;
+        }
+
+        .facility-item:hover {
+            background: var(--clr-emerald-faint);
+        }
+
+        .facility-icon {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+            stroke: var(--clr-gold);
+            fill: none;
+            opacity: 0.7;
+        }
+
+        .facility-text {
+            font-size: 0.65rem;
+            color: var(--clr-text-secondary);
+            letter-spacing: 0.06em;
+        }
+
+        /* Padding at bottom to clear the sticky CTA */
+        .drawer-details-bottom-pad {
+            height: 6rem;
+        }
+
+        /* ─ Drawer Sticky Bottom CTA ─ */
+        .drawer-cta-bar {
+            position: sticky;
+            bottom: 0;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            padding: 1.25rem 2.5rem;
+            background: rgba(4, 8, 7, 0.97);
+            backdrop-filter: blur(20px);
+            border-top: 0.5px solid var(--clr-border);
+            flex-shrink: 0;
+        }
+
+        .drawer-cta-price-mini {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .drawer-cta-price-mini .mini-val {
+            font-family: var(--ff-serif);
+            font-size: 1.1rem;
+            color: var(--clr-gold);
+            font-weight: var(--fw-regular);
+            line-height: 1;
+        }
+
+        .drawer-cta-price-mini .mini-per {
+            font-size: 0.5rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--clr-text-muted);
+        }
+
+        .drawer-book-btn {
+            flex: 1;
+            max-width: 260px;
+            padding: 1rem 2rem;
+            background: var(--clr-gold);
+            color: var(--clr-obsidian);
+            font-family: var(--ff-sans);
+            font-size: 0.6rem;
+            font-weight: var(--fw-semibold);
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            text-align: center;
+        }
+
+        .drawer-book-btn:hover {
+            background: var(--clr-gold-bright);
+        }
+
+        .drawer-enquire-btn {
+            padding: 1rem 1.5rem;
+            background: transparent;
+            color: var(--clr-text-secondary);
+            font-family: var(--ff-sans);
+            font-size: 0.58rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            border: 0.5px solid var(--clr-border);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            white-space: nowrap;
+        }
+
+        .drawer-enquire-btn:hover {
+            color: var(--clr-gold);
+            border-color: var(--clr-gold);
+        }
+
+
+        /* ── Suites page — gradient flair backgrounds per card ── */
+        .card-grad-presidential-1 {
+            --card-grad-a: #1a3528;
+            --card-grad-b: #071510;
+        }
+
+        .card-grad-presidential-2 {
+            --card-grad-a: #142a20;
+            --card-grad-b: #04090a;
+        }
+
+        .card-grad-lakeside-1 {
+            --card-grad-a: #0e2820;
+            --card-grad-b: #06110e;
+        }
+
+        .card-grad-lakeside-2 {
+            --card-grad-a: #0c2519;
+            --card-grad-b: #060e09;
+        }
+
+        .card-grad-lakeside-3 {
+            --card-grad-a: #0a2016;
+            --card-grad-b: #050d08;
+        }
+
+        .card-grad-std-1 {
+            --card-grad-a: #121f18;
+            --card-grad-b: #040807;
+        }
+
+        .card-grad-std-2 {
+            --card-grad-a: #0f1c14;
+            --card-grad-b: #040807;
+        }
+
+        .card-grad-std-3 {
+            --card-grad-a: #0d1a11;
+            --card-grad-b: #040807;
+        }
+
+        .card-grad-std-4 {
+            --card-grad-a: #0b1810;
+            --card-grad-b: #040807;
+        }
+
+
+        /* ── Responsive — Suites Page ───────────────────────── */
+
+        @media (max-width: 1200px) {
+            .rooms-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .rooms-grid.featured {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            #room-drawer {
+                width: 80vw;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            /* Filter bar stacks */
+            .filter-bar-inner {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+            }
+
+            .filter-price-block {
+                min-width: unset;
+            }
+
+            .filter-reset-btn {
+                justify-self: start;
+            }
+
+            /* Room grid single column */
+            .rooms-grid,
+            .rooms-grid.featured {
+                grid-template-columns: 1fr;
+            }
+
+            /* Full-screen drawer on mobile */
+            #room-drawer {
+                width: 100vw;
+                max-width: 100vw;
+                border-left: none;
+            }
+
+            /* On mobile, overlay is not click-to-close (no cursor change) */
+            .drawer-overlay.mobile-no-click {
+                pointer-events: none;
+            }
+
+            .drawer-gallery {
+                padding: 1.5rem 1.5rem 0;
+            }
+
+            .drawer-details {
+                padding: 2rem 1.5rem;
+            }
+
+            .drawer-topbar {
+                padding: 1.25rem 1.5rem;
+            }
+
+            .drawer-cta-bar {
+                padding: 1rem 1.5rem;
+            }
+
+            .drawer-cta-bar .drawer-enquire-btn {
+                display: none;
+            }
+
+            .drawer-book-btn {
+                max-width: unset;
+                flex: 1;
+            }
+
+            .suites-hero-content .hero-count {
+                display: none;
+            }
+
+            .room-category-header {
+                grid-template-columns: 1fr;
+            }
+
+            .room-category-count {
+                display: none;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .drawer-facilities-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .facility-item {
+                border-right: none;
+            }
+
+            .facility-item:nth-last-child(-n+2) {
+                border-bottom: 0.5px solid var(--clr-border);
+            }
+
+            .facility-item:last-child {
+                border-bottom: none;
+            }
+
+            .drawer-gallery-thumb-row {
+                grid-template-columns: 1fr;
+            }
+
+            .room-card-specs {
+                gap: 0.5rem 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ═══════════════════════════════════════════════════════
+       HEADER — Identical to index.html
+       ═══════════════════════════════════════════════════════ -->
+    <header id="site-header">
+        <div class="nav-wrapper">
+            <a href="index.html" class="nav-logo" aria-label="Haylo Hotel — Home">
+                <div class="nav-logo-emblem" aria-hidden="true"></div>
+                <div class="nav-logo-name">
+                    <span class="name">Haylo</span>
+                    <span class="tagline">Hotel &amp; Residences</span>
+                </div>
+            </a>
+
+            <nav aria-label="Primary navigation">
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="suites.html" class="active">Suites</a></li>
+                    <li><a href="heritage.html">Heritage</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                </ul>
+            </nav>
+
+            <div class="nav-actions">
+                <a href="tel:+256200000000" class="nav-tel" aria-label="Call us">+256 200 000 000</a>
+                <a href="#" class="nav-book-btn"><span>Reserve</span></a>
+                <button class="nav-hamburger" id="nav-toggle" aria-label="Open menu" aria-expanded="false"
+                    aria-controls="nav-mobile-drawer">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
+        </div>
+
+        <nav id="nav-mobile-drawer" class="nav-mobile-drawer" aria-label="Mobile navigation" aria-hidden="true">
+            <a href="index.html">Home</a>
+            <a href="suites.html">Suites &amp; Rooms</a>
+            <a href="heritage.html">Our Heritage</a>
+            <a href="contact.html">Contact</a>
+            <a href="dashboard.html">Guest Dashboard</a>
+            <a href="#" class="nav-mobile-cta">Reserve a Suite</a>
+        </nav>
+    </header>
+
+
+    <!-- ═══════════════════════════════════════════════════════
+       PAGE HERO BANNER
+       ═══════════════════════════════════════════════════════ -->
+    <section class="suites-hero" aria-label="Suites and Rooms page header">
+        <div class="suites-hero-bg" aria-hidden="true"></div>
+
+        <div class="suites-hero-content">
+            <span class="section-label">Curated Accommodations</span>
+            <h1>Suites &amp;<br />Rooms</h1>
+            <p class="hero-sub"><span id="hero-sub-count">Nine</span> distinct sanctuaries — each a world of its own</p>
+
+            <div class="hero-count" aria-hidden="true">
+                <span class="num" id="total-rooms-count">09</span>
+                <span class="lbl">Accommodations</span>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════════
+       STICKY FILTER BAR
+       ═══════════════════════════════════════════════════════ -->
+    <div class="filter-bar" id="filter-bar" role="search" aria-label="Filter rooms">
+        <div class="filter-bar-inner">
+
+            <!-- Text Search -->
+            <div class="filter-search-wrap">
+                <svg class="filter-search-icon" viewBox="0 0 16 16" aria-hidden="true">
+                    <circle cx="6.5" cy="6.5" r="5" />
+                    <path d="M11 11 L15 15" stroke-linecap="round" />
+                </svg>
+                <input type="search" id="suite-search" name="suite-search"
+                    placeholder="Search by name, view, or feature…" autocomplete="off" aria-label="Search suites" />
+            </div>
+
+            <!-- Dual Price Slider -->
+            <div class="filter-price-block" aria-label="Price range filter">
+                <div class="filter-price-label">
+                    <span class="lbl">Price Per Night</span>
+                    <span class="vals" id="price-display" aria-live="polite">UGX 300,000 — UGX 5,000,000</span>
+                </div>
+                <div class="dual-range-wrap">
+                    <div class="dual-range-track" aria-hidden="true"></div>
+                    <div class="dual-range-fill" id="range-fill" aria-hidden="true"></div>
+                    <input type="range" class="range-input" id="range-min" min="300000" max="5000000" value="300000"
+                        step="50000" aria-label="Minimum price" />
+                    <input type="range" class="range-input" id="range-max" min="300000" max="5000000" value="5000000"
+                        step="50000" aria-label="Maximum price" />
+                </div>
+            </div>
+
+            <!-- Reset -->
+            <button type="button" class="filter-reset-btn" id="filter-reset" aria-label="Reset all filters">
+                Reset
+                <span class="filter-active-badge" id="filter-badge" aria-hidden="true">!</span>
+            </button>
+
+        </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════
+       MAIN SUITES BODY
+       ═══════════════════════════════════════════════════════ -->
+    <main class="suites-body">
+
+        <!-- "No results" message (hidden by default) -->
+        <div class="no-results-msg" id="no-results" role="status" aria-live="polite">
+            <span class="section-label" style="justify-content:center;">No Matches Found</span>
+            <h3>No suites match your current filters.</h3>
+            <p>Try adjusting your search terms or price range to explore our full collection.</p>
+        </div>
+
+        <!-- ── ① PRESIDENTIAL SUITES ──────────────────────── -->
+        <section class="room-category" id="cat-presidential" data-category="presidential"
+            aria-labelledby="cat-presidential-title">
+            <div class="room-category-header">
+                <div class="room-category-meta">
+                    <span class="section-label">The Pinnacle</span>
+                    <h2 class="room-category-name" id="cat-presidential-title">Presidential<br />Suites</h2>
+                    <p class="room-category-desc">
+                        Reserved for those who demand the absolute. Floors dedicated entirely to your
+                        privacy, with personal butler service and commanding panoramic views over Kampala.
+                    </p>
+                </div>
+                <div class="room-category-count" aria-hidden="true">
+                    <span class="c-num" id="count-presidential">00</span>
+                    <span class="c-lbl">Suites</span>
+                </div>
+            </div>
+
+            <div class="rooms-grid featured" id="grid-presidential">
+            </div><!-- /rooms-grid.featured -->
+        </section>
+
+
+        <!-- ── ② LAKESIDE RETREATS ────────────────────────── -->
+        <section class="room-category" id="cat-lakeside" data-category="lakeside" aria-labelledby="cat-lakeside-title">
+            <div class="room-category-header">
+                <div class="room-category-meta">
+                    <span class="section-label">Waterfront Serenity</span>
+                    <h2 class="room-category-name" id="cat-lakeside-title">Lakeside<br />Retreats</h2>
+                    <p class="room-category-desc">
+                        Perched above the lake, these suites frame a living canvas of water and
+                        sky. Each morning begins with birdsong and a horizon that stretches beyond thought.
+                    </p>
+                </div>
+                <div class="room-category-count" aria-hidden="true">
+                    <span class="c-num" id="count-lakeside">00</span>
+                    <span class="c-lbl">Suites</span>
+                </div>
+            </div>
+
+            <div class="rooms-grid" id="grid-lakeside">
+            </div><!-- /rooms-grid -->
+        </section>
+
+
+        <!-- ── ③ STANDARD LUXURY ──────────────────────────── -->
+        <section class="room-category" id="cat-standard" data-category="standard" aria-labelledby="cat-standard-title">
+            <div class="room-category-header">
+                <div class="room-category-meta">
+                    <span class="section-label">Refined Comfort</span>
+                    <h2 class="room-category-name" id="cat-standard-title">Standard<br />Luxury</h2>
+                    <p class="room-category-desc">
+                        Every element is carefully considered. No detail is ordinary. From the
+                        selection of linen to the quality of silence — this is luxury without apology.
+                    </p>
+                </div>
+                <div class="room-category-count" aria-hidden="true">
+                    <span class="c-num" id="count-standard">00</span>
+                    <span class="c-lbl">Rooms</span>
+                </div>
+            </div>
+
+            <div class="rooms-grid" id="grid-standard">
+            </div><!-- /rooms-grid -->
+        </section>
+
+    </main><!-- /suites-body -->
+
+
+    <!-- ═══════════════════════════════════════════════════════
+       DRAWER OVERLAY
+       ═══════════════════════════════════════════════════════ -->
+    <div class="drawer-overlay" id="drawer-overlay" role="presentation" aria-hidden="true"></div>
+
+
+    <!-- ═══════════════════════════════════════════════════════
+       SLIDE-OUT ROOM DRAWER
+       ═══════════════════════════════════════════════════════ -->
+    <aside id="room-drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-suite-name" aria-hidden="true">
+        <!-- Sticky Top Bar -->
+        <div class="drawer-topbar">
+            <div class="drawer-topbar-left">
+                <span class="drawer-suite-cat" id="drawer-suite-cat">Suite</span>
+                <h2 class="drawer-suite-name" id="drawer-suite-name">Suite Name</h2>
+            </div>
+            <button type="button" class="drawer-close-btn" id="drawer-close" aria-label="Close suite details">
+                <svg viewBox="0 0 14 14" aria-hidden="true">
+                    <path d="M1 1 L13 13 M13 1 L1 13" stroke-linecap="round" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Scrollable body -->
+        <div class="drawer-scroll">
+
+            <!-- Media Gallery -->
+            <div class="drawer-gallery">
+                <div class="drawer-gallery-main">
+                    <img id="drawer-img-main" src="" alt="" loading="lazy" />
+                </div>
+                <div class="drawer-gallery-thumb-row">
+                    <div class="drawer-gallery-thumb">
+                        <img id="drawer-img-thumb1" src="" alt="" loading="lazy" />
+                    </div>
+                    <div class="drawer-gallery-thumb">
+                        <img id="drawer-img-thumb2" src="" alt="" loading="lazy" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Details -->
+            <div class="drawer-details">
+                <!-- Price + Spec Pills -->
+                <div class="drawer-price-bar">
+                    <div>
+                        <div class="drawer-price">
+                            <span id="drawer-price-val">UGX 0</span>
+                            <span class="per">/ night</span>
+                        </div>
+                    </div>
+                    <div class="drawer-spec-pills" id="drawer-pills">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <p class="drawer-desc" id="drawer-desc">Room description.</p>
+
+                <!-- Facilities -->
+                <div class="drawer-facilities-title">Room Facilities</div>
+                <div class="drawer-facilities-grid" id="drawer-facilities">
+                    <!-- Injected by JS -->
+                </div>
+
+                <!-- Bottom padding to clear sticky CTA -->
+                <div class="drawer-details-bottom-pad"></div>
+            </div>
+
+        </div><!-- /drawer-scroll -->
+
+        <!-- Sticky bottom CTA bar -->
+        <div class="drawer-cta-bar">
+            <div class="drawer-cta-price-mini">
+                <span class="mini-val" id="drawer-cta-price">UGX 0</span>
+                <span class="mini-per">per night · taxes incl.</span>
+            </div>
+            <button type="button" class="drawer-enquire-btn" id="drawer-enquire" aria-label="Enquire about this suite">
+                Enquire
+            </button>
+            <button type="button" class="drawer-book-btn" id="drawer-book" aria-label="Book this suite">
+                Reserve This Suite
+            </button>
+        </div>
+
+    </aside><!-- /#room-drawer -->
+
+
+    <!-- ═══════════════════════════════════════════════════════
+       FOOTER — Identical to index.html
+       ═══════════════════════════════════════════════════════ -->
+    <footer id="site-footer">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <span class="footer-logo">Haylo Hotel</span>
+                <p class="tagline">
+                    A sanctuary for those who seek the exceptional. Kampala's most
+                    distinguished address — where every detail is an act of intention.
+                </p>
+                <div class="footer-social" aria-label="Social media links">
+                    <a href="#" aria-label="Instagram">Ig</a>
+                    <a href="#" aria-label="Facebook">Fb</a>
+                    <a href="#" aria-label="Twitter / X">X</a>
+                    <a href="#" aria-label="LinkedIn">Li</a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <span class="footer-col-title">Navigate</span>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="suites.html">Suites &amp; Rooms</a></li>
+                    <li><a href="about.html">Our Heritage</a></li>
+                    <li><a href="dashboard.html">Guest Dashboard</a></li>
+                    <li><a href="admin.html">Administration</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <span class="footer-col-title">Experiences</span>
+                <ul>
+                    <li><a href="#">Fine Dining</a></li>
+                    <li><a href="#">Spa &amp; Wellness</a></li>
+                    <li><a href="#">Infinity Pool</a></li>
+                    <li><a href="#">Concierge Services</a></li>
+                    <li><a href="#">Events &amp; Weddings</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <span class="footer-col-title">Contact</span>
+                <address>
+                    <p>Plot 42, Nakasero Hill<br />Kampala, Uganda</p><br />
+                    <p><a href="tel:+256200000000">+256 200 000 000</a></p>
+                    <p><a href="mailto:hello@haylohotel.com">hello@haylohotel.com</a></p>
+                    <br />
+                    <p>Open 24 hours, every day</p>
+                </address>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-bottom-inner">
+                <p class="footer-copyright">
+                    &copy; 2026 Haylo Hotel &amp; Residences. All rights reserved.
+                </p>
+                <nav class="footer-legal" aria-label="Legal links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Preferences</a>
+                </nav>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- ═══════════════════════════════════════════════════════
+       SCRIPTS
+       ═══════════════════════════════════════════════════════ -->
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/suite.js"></script>
+
+</body>
+
+</html>

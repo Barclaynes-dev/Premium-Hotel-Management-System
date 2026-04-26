@@ -1,0 +1,2121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+        content="Haylo Hotel — Our Heritage. A legacy defined by silence, craft, and the quiet mastery of hospitality rooted in Kampala." />
+    <meta name="theme-color" content="#040807" />
+
+    <title>Our Heritage — Haylo Hotel</title>
+
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23040807'/><rect x='12' y='12' width='8' height='8' fill='%23b08d57' transform='rotate(45 16 16)'/></svg>" />
+
+    <link rel="stylesheet" href="assets/css/global.css" />
+    <link rel="stylesheet" href="assets/css/layout.css" />
+    <link rel="stylesheet" href="assets/css/components.css" />
+
+    <!-- ═══════════════════════════════════════════════════
+       HERITAGE PAGE — SPECIFIC STYLES & KEYFRAMES
+       ═══════════════════════════════════════════════════ -->
+    <style>
+        /* ── Page-specific animation keyframes ─────────────── */
+
+        @keyframes fade-in-up {
+            from {
+                opacity: 0;
+                transform: translateY(52px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fade-in-up-center {
+            from {
+                opacity: 0;
+                transform: translate(-50%, 52px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+        }
+
+        @keyframes fade-in-left {
+            from {
+                opacity: 0;
+                transform: translateX(-48px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fade-in-right {
+            from {
+                opacity: 0;
+                transform: translateX(48px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scale-in {
+            from {
+                opacity: 0;
+                transform: scale(0.88);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes line-draw-down {
+            from {
+                transform: scaleY(0);
+            }
+
+            to {
+                transform: scaleY(1);
+            }
+        }
+
+        @keyframes glow-pulse {
+
+            0%,
+            100% {
+                opacity: 0.18;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.35;
+                transform: scale(1.08);
+            }
+        }
+
+        @keyframes dot-appear {
+            from {
+                transform: scale(0) rotate(45deg);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1) rotate(45deg);
+                opacity: 1;
+            }
+        }
+
+        @keyframes hero-title-mask {
+            from {
+                clip-path: inset(0 100% 0 0);
+            }
+
+            to {
+                clip-path: inset(0 0% 0 0);
+            }
+        }
+
+        @keyframes counter-spin {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes shimmer-gold {
+            0% {
+                background-position: -300% center;
+            }
+
+            100% {
+                background-position: 300% center;
+            }
+        }
+
+        @keyframes grain-shift {
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            20% {
+                transform: translate(-1%, 1%);
+            }
+
+            40% {
+                transform: translate(1%, -1%);
+            }
+
+            60% {
+                transform: translate(-0.5%, 0.5%);
+            }
+
+            80% {
+                transform: translate(0.5%, -0.5%);
+            }
+        }
+
+
+        /* ── Reveal system (Intersection Observer driven) ── */
+
+        .reveal {
+            opacity: 0;
+            will-change: opacity, transform;
+        }
+
+        .reveal.from-up {
+            transform: translateY(52px);
+        }
+
+        .reveal.from-left {
+            transform: translateX(-48px);
+        }
+
+        .reveal.from-right {
+            transform: translateX(48px);
+        }
+
+        .reveal.from-scale {
+            transform: scale(0.9);
+        }
+
+        .reveal.visible {
+            animation: var(--reveal-anim, fade-in-up) 0.95s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s) both;
+        }
+
+        .reveal.from-up.visible {
+            --reveal-anim: fade-in-up;
+        }
+
+        .reveal.from-left.visible {
+            --reveal-anim: fade-in-left;
+        }
+
+        .reveal.from-right.visible {
+            --reveal-anim: fade-in-right;
+        }
+
+        .reveal.from-scale.visible {
+            --reveal-anim: scale-in;
+        }
+
+
+        /* ── §1 CINEMATIC HERO ─────────────────────────────── */
+
+        #heritage-hero {
+            position: relative;
+            height: 100vh;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Parallax bg layer */
+        .hero-parallax-bg {
+            position: absolute;
+            inset: -15%;
+            /* extra room for parallax travel */
+            z-index: 0;
+            background:
+                linear-gradient(180deg, rgba(4, 8, 7, 0.28) 0%, rgba(4, 8, 7, 0.58) 60%, rgba(4, 8, 7, 1) 100%),
+                radial-gradient(ellipse 90% 70% at 50% 30%, rgba(10, 43, 34, 0.55) 0%, transparent 70%),
+                linear-gradient(135deg, #0a2218 0%, #040e09 45%, #040807 100%);
+            background-size: cover;
+            background-position: center 30%;
+            will-change: transform;
+        }
+
+        /* Diagonal scanline texture */
+        .hero-parallax-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                repeating-linear-gradient(125deg,
+                    rgba(176, 141, 87, 0.018) 0px,
+                    rgba(176, 141, 87, 0.018) 1px,
+                    transparent 1px,
+                    transparent 72px);
+            pointer-events: none;
+        }
+
+        /* Animated grain overlay */
+        .hero-grain {
+            position: absolute;
+            inset: -30%;
+            z-index: 1;
+            opacity: 0.045;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-size: 256px 256px;
+            animation: grain-shift 6s steps(4) infinite;
+            pointer-events: none;
+        }
+
+        .hero-overlay-vignette {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            background: radial-gradient(ellipse 75% 70% at 50% 50%,
+                    transparent 40%,
+                    rgba(4, 8, 7, 0.6) 100%);
+            pointer-events: none;
+        }
+
+        /* Hero content */
+        .hero-content-wrap {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            padding: 0 var(--section-px);
+            max-width: 900px;
+        }
+
+        .hero-pre-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 1.1rem;
+            font-family: var(--ff-sans);
+            font-size: 0.55rem;
+            font-weight: var(--fw-semibold);
+            letter-spacing: 0.38em;
+            text-transform: uppercase;
+            color: var(--clr-gold);
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fade-in-up 1s ease 0.3s both;
+        }
+
+        .hero-pre-label::before,
+        .hero-pre-label::after {
+            content: '';
+            display: block;
+            width: 32px;
+            height: 0.5px;
+            background: var(--clr-gold);
+            opacity: 0.6;
+        }
+
+        .hero-main-title {
+            font-family: var(--ff-serif);
+            font-size: clamp(2.5rem, 6.5vw, 6.5rem);
+            font-weight: var(--fw-regular);
+            line-height: 0.95;
+            letter-spacing: 0.03em;
+            color: var(--clr-text-primary);
+            overflow: hidden;
+            opacity: 0;
+            animation: fade-in-up 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.55s both;
+        }
+
+        /* Shimmer word */
+        .hero-main-title .shimmer-word {
+            display: inline-block;
+            background: linear-gradient(110deg,
+                    var(--clr-gold) 0%,
+                    var(--clr-gold-bright) 30%,
+                    #f0d99a 45%,
+                    var(--clr-gold-bright) 60%,
+                    var(--clr-gold) 100%);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer-gold 5s linear 1.8s infinite;
+        }
+
+        .hero-title-divider {
+            display: block;
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, transparent, rgba(176, 141, 87, 0.55), transparent);
+            margin: 1.5rem auto;
+            opacity: 0;
+            animation: fade-in-up 1s ease 0.9s both;
+        }
+
+        .hero-sub {
+            font-family: var(--ff-sans);
+            font-size: clamp(0.6rem, 1.2vw, 0.75rem);
+            font-weight: var(--fw-light);
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--clr-text-secondary);
+            opacity: 0;
+            animation: fade-in-up 1s ease 1.1s both;
+        }
+
+        /* Scroll invitation */
+        .hero-scroll-hint {
+            position: absolute;
+            bottom: 2.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+            opacity: 0;
+            animation: fade-in-up-center 1s ease 1.5s both;
+        }
+
+        .hero-scroll-hint span {
+            font-size: 0.5rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--clr-text-muted);
+        }
+
+        .scroll-mouse {
+            width: 20px;
+            height: 30px;
+            border: 0.5px solid rgba(176, 141, 87, 0.35);
+            border-radius: 10px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            padding-top: 5px;
+        }
+
+        .scroll-mouse::after {
+            content: '';
+            width: 1.5px;
+            height: 7px;
+            background: var(--clr-gold);
+            border-radius: 1px;
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+
+        /* Hero decorative corners */
+        .hero-corner {
+            position: absolute;
+            z-index: 3;
+            width: 48px;
+            height: 48px;
+            pointer-events: none;
+            opacity: 0;
+            animation: fade-in-up 1s ease 1.2s both;
+        }
+
+        .hero-corner::before,
+        .hero-corner::after {
+            content: '';
+            position: absolute;
+            background: var(--clr-gold);
+            opacity: 0.35;
+        }
+
+        .hero-corner.tl {
+            top: 2.5rem;
+            left: var(--section-px);
+        }
+
+        .hero-corner.tr {
+            top: 2.5rem;
+            right: var(--section-px);
+        }
+
+        .hero-corner.bl {
+            bottom: 6rem;
+            left: var(--section-px);
+        }
+
+        .hero-corner.br {
+            bottom: 6rem;
+            right: var(--section-px);
+        }
+
+        .hero-corner.tl::before,
+        .hero-corner.tr::before,
+        .hero-corner.bl::before,
+        .hero-corner.br::before {
+            width: 100%;
+            height: 0.5px;
+            top: 0;
+            left: 0;
+        }
+
+        .hero-corner.tl::after,
+        .hero-corner.tr::after,
+        .hero-corner.bl::after,
+        .hero-corner.br::after {
+            width: 0.5px;
+            height: 100%;
+            top: 0;
+        }
+
+        .hero-corner.tl::after {
+            left: 0;
+        }
+
+        .hero-corner.tr::after {
+            right: 0;
+            left: auto;
+        }
+
+        .hero-corner.bl::before {
+            bottom: 0;
+            top: auto;
+        }
+
+        .hero-corner.bl::after {
+            left: 0;
+        }
+
+        .hero-corner.br::before {
+            bottom: 0;
+            top: auto;
+        }
+
+        .hero-corner.br::after {
+            right: 0;
+            left: auto;
+        }
+
+
+        /* ── §2 ORIGIN STORY — Split Layout ────────────────── */
+
+        #origin {
+            padding: 10rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #origin::before {
+            content: '';
+            position: absolute;
+            right: -8%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 55%;
+            height: 90%;
+            background: radial-gradient(ellipse at right center,
+                    rgba(10, 43, 34, 0.22) 0%,
+                    transparent 68%);
+            pointer-events: none;
+        }
+
+        .origin-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8rem;
+            align-items: center;
+            max-width: var(--max-w);
+            margin: 0 auto;
+            padding: 0 var(--section-px);
+        }
+
+        /* ─ Image Side ─ */
+        .origin-image-col {
+            position: relative;
+        }
+
+        .origin-img-frame {
+            position: relative;
+            aspect-ratio: 3 / 4;
+            overflow: hidden;
+        }
+
+        /* Gold corner inset */
+        .origin-img-frame::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 0.5px solid rgba(176, 141, 87, 0.22);
+            z-index: 2;
+            pointer-events: none;
+            transition: border-color 0.5s ease;
+        }
+
+        .origin-img-frame:hover::before {
+            border-color: rgba(176, 141, 87, 0.45);
+        }
+
+        .origin-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: linear-gradient(160deg, #112b1f 0%, #07140e 50%, #040807 100%);
+            transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .origin-img-frame:hover .origin-img {
+            transform: scale(1.04);
+        }
+
+        /* Floating location chip */
+        .origin-location-chip {
+            position: absolute;
+            top: -1.5rem;
+            right: -2rem;
+            z-index: 4;
+            background: var(--clr-obsidian-80);
+            backdrop-filter: blur(20px);
+            border: 0.5px solid var(--clr-border);
+            padding: 1rem 1.4rem;
+        }
+
+        .origin-location-chip .loc-label {
+            font-size: 0.48rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--clr-gold);
+            font-weight: var(--fw-semibold);
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        .origin-location-chip .loc-value {
+            font-family: var(--ff-serif);
+            font-size: 0.9rem;
+            color: var(--clr-text-primary);
+            font-weight: var(--fw-regular);
+            letter-spacing: 0.04em;
+        }
+
+        /* Decorative rotated dot grid */
+        .origin-dots {
+            position: absolute;
+            bottom: -2rem;
+            left: -2rem;
+            width: 80px;
+            height: 80px;
+            background-image: radial-gradient(circle, rgba(176, 141, 87, 0.28) 1.5px, transparent 1.5px);
+            background-size: 12px 12px;
+            z-index: 0;
+            transform: rotate(-15deg);
+            pointer-events: none;
+        }
+
+        /* ─ Text Side ─ */
+        .origin-text-col {}
+
+        .origin-chapter {
+            font-size: 0.48rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--clr-gold);
+            font-weight: var(--fw-semibold);
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .origin-chapter::before {
+            content: '01';
+            font-family: var(--ff-serif);
+            font-size: 0.52rem;
+            color: var(--clr-text-muted);
+            letter-spacing: 0.05em;
+        }
+
+        .origin-title {
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: var(--fw-regular);
+            line-height: 1.06;
+            margin: 0.5rem 0 2.25rem;
+        }
+
+        .origin-title em {
+            font-style: italic;
+            color: var(--clr-gold);
+        }
+
+        .origin-body {
+            font-size: 0.82rem;
+            line-height: 2.15;
+            color: var(--clr-text-muted);
+            font-weight: var(--fw-light);
+            margin-bottom: 1.25rem;
+        }
+
+        /* Pull quote */
+        .origin-pullquote {
+            margin: 2.5rem 0;
+            padding: 1.75rem 2rem;
+            border-left: 1px solid var(--clr-gold);
+            background: rgba(176, 141, 87, 0.04);
+            position: relative;
+        }
+
+        .origin-pullquote::before {
+            content: '\201C';
+            position: absolute;
+            top: -0.5rem;
+            left: 1.5rem;
+            font-family: 'Georgia', serif;
+            font-size: 4rem;
+            color: var(--clr-gold);
+            opacity: 0.2;
+            line-height: 1;
+        }
+
+        .origin-pullquote p {
+            font-family: var(--ff-serif);
+            font-size: 0.95rem;
+            line-height: 1.75;
+            color: var(--clr-text-secondary);
+            font-style: italic;
+            font-weight: var(--fw-regular);
+        }
+
+        /* Key figures row */
+        .origin-figures {
+            display: flex;
+            gap: 2.5rem;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 0.5px solid var(--clr-border);
+        }
+
+        .fig-item {}
+
+        .fig-num {
+            font-family: var(--ff-serif);
+            font-size: 2.2rem;
+            color: var(--clr-gold);
+            display: block;
+            line-height: 1;
+            font-weight: var(--fw-regular);
+        }
+
+        .fig-lbl {
+            font-size: 0.55rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--clr-text-muted);
+            margin-top: 0.35rem;
+            display: block;
+        }
+
+
+        /* ── §3 INTERACTIVE TIMELINE ───────────────────────── */
+
+        #timeline {
+            padding: 9rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Ambient left-side emerald wash */
+        #timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40%;
+            height: 80%;
+            background: radial-gradient(ellipse at left center,
+                    rgba(10, 43, 34, 0.25) 0%,
+                    transparent 65%);
+            pointer-events: none;
+        }
+
+        .timeline-container {
+            max-width: var(--max-w);
+            margin: 0 auto;
+            padding: 0 var(--section-px);
+        }
+
+        .timeline-header {
+            text-align: center;
+            margin-bottom: 6rem;
+        }
+
+        .timeline-header h2 {
+            font-size: clamp(2rem, 4.5vw, 3.5rem);
+            margin: 0.6rem 0 0.85rem;
+        }
+
+        .timeline-header p {
+            font-size: 0.8rem;
+            max-width: 400px;
+            margin: 0 auto;
+            line-height: 1.95;
+        }
+
+        /* The vertical gold spine */
+        .timeline-spine-wrap {
+            position: relative;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .timeline-spine {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 0.5px;
+            background: linear-gradient(to bottom, transparent, var(--clr-gold), transparent);
+            transform-origin: top center;
+            /* JS adds .drawn class */
+        }
+
+        .timeline-spine.drawn {
+            animation: line-draw-down 1.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        /* Timeline item */
+        .tl-item {
+            display: grid;
+            grid-template-columns: 1fr 48px 1fr;
+            gap: 0;
+            align-items: start;
+            margin-bottom: 5rem;
+        }
+
+        .tl-item:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Alternate sides */
+        .tl-item.right .tl-content {
+            grid-column: 3;
+        }
+
+        .tl-item.right .tl-dot-col {
+            grid-column: 2;
+        }
+
+        .tl-item.right .tl-spacer {
+            grid-column: 1;
+        }
+
+        .tl-item.left .tl-content {
+            grid-column: 1;
+            text-align: right;
+        }
+
+        .tl-item.left .tl-dot-col {
+            grid-column: 2;
+        }
+
+        .tl-item.left .tl-spacer {
+            grid-column: 3;
+        }
+
+        /* Center dot column */
+        .tl-dot-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 0.25rem;
+        }
+
+        .tl-dot {
+            width: 12px;
+            height: 12px;
+            background: var(--clr-obsidian);
+            border: 1px solid var(--clr-gold);
+            transform: rotate(45deg);
+            flex-shrink: 0;
+            transition: background 0.4s ease, border-color 0.4s ease;
+        }
+
+        .tl-item.active .tl-dot,
+        .tl-item:hover .tl-dot {
+            background: var(--clr-gold);
+        }
+
+        /* When JS reveals item */
+        .tl-item .tl-dot {
+            opacity: 0;
+            transform: rotate(45deg) scale(0);
+            transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease;
+        }
+
+        .tl-item.visible .tl-dot {
+            opacity: 1;
+            transform: rotate(45deg) scale(1);
+        }
+
+        /* Content card */
+        .tl-content {
+            padding: 0 1.5rem;
+        }
+
+        .tl-year {
+            font-family: var(--ff-serif);
+            font-size: 2.8rem;
+            color: var(--clr-text-ghost);
+            line-height: 1;
+            font-weight: var(--fw-regular);
+            display: block;
+            letter-spacing: 0.02em;
+            transition: color 0.4s ease;
+        }
+
+        .tl-item.visible .tl-year,
+        .tl-item:hover .tl-year {
+            color: var(--clr-gold);
+        }
+
+        .tl-milestone {
+            font-family: var(--ff-serif);
+            font-size: 1.1rem;
+            color: var(--clr-text-primary);
+            margin: 0.45rem 0 0.65rem;
+            font-weight: var(--fw-regular);
+            letter-spacing: 0.02em;
+        }
+
+        .tl-detail {
+            font-size: 0.75rem;
+            line-height: 1.95;
+            color: var(--clr-text-muted);
+            font-weight: var(--fw-light);
+        }
+
+        /* Glass card that appears on hover */
+        .tl-content-inner {
+            padding: 1.5rem;
+            border: 0.5px solid transparent;
+            background: transparent;
+            transition: border-color 0.4s ease, background 0.4s ease;
+        }
+
+        .tl-item:hover .tl-content-inner {
+            border-color: var(--clr-border);
+            background: rgba(10, 43, 34, 0.08);
+            backdrop-filter: blur(12px);
+        }
+
+
+        /* ── §4 DESIGN PHILOSOPHY — Glass Card ─────────────── */
+
+        #philosophy {
+            padding: 10rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Background emerald spotlight */
+        .philosophy-bg {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 80% 70% at 50% 50%,
+                    rgba(10, 43, 34, 0.32) 0%,
+                    transparent 65%);
+            pointer-events: none;
+        }
+
+        /* Subtle grid lines background */
+        .philosophy-grid-lines {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(176, 141, 87, 0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(176, 141, 87, 0.025) 1px, transparent 1px);
+            background-size: 64px 64px;
+            pointer-events: none;
+        }
+
+        .philosophy-inner {
+            position: relative;
+            z-index: 2;
+            max-width: var(--max-w);
+            margin: 0 auto;
+            padding: 0 var(--section-px);
+        }
+
+        /* Main centered glass card */
+        .philosophy-card {
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 4.5rem;
+            background: rgba(4, 8, 7, 0.55);
+            backdrop-filter: blur(30px) saturate(160%);
+            -webkit-backdrop-filter: blur(30px) saturate(160%);
+            border: 0.5px solid var(--clr-border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Rotating ambient glow behind card */
+        .philosophy-card::before {
+            content: '';
+            position: absolute;
+            inset: -40%;
+            background: conic-gradient(from 0deg,
+                    transparent 0deg,
+                    rgba(10, 43, 34, 0.25) 60deg,
+                    transparent 120deg,
+                    rgba(176, 141, 87, 0.07) 200deg,
+                    transparent 240deg,
+                    rgba(10, 43, 34, 0.18) 300deg,
+                    transparent 360deg);
+            animation: glow-pulse 8s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Gold inset corners (decorative) */
+        .philosophy-card::after {
+            content: '';
+            position: absolute;
+            inset: 12px;
+            border: 0.5px solid rgba(176, 141, 87, 0.08);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .philosophy-card-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .philosophy-emblem {
+            width: 52px;
+            height: 52px;
+            margin: 0 auto 2.5rem;
+            position: relative;
+        }
+
+        .philosophy-emblem::before,
+        .philosophy-emblem::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 0.5px solid var(--clr-gold);
+        }
+
+        .philosophy-emblem::before {
+            transform: rotate(45deg);
+            opacity: 0.5;
+        }
+
+        .philosophy-emblem::after {
+            transform: rotate(45deg) scale(0.5);
+            background: rgba(176, 141, 87, 0.25);
+        }
+
+        .philosophy-card h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: var(--fw-regular);
+            margin: 0.5rem 0 2rem;
+            line-height: 1.1;
+        }
+
+        .philosophy-body {
+            font-size: 0.85rem;
+            line-height: 2.15;
+            color: var(--clr-text-muted);
+            font-weight: var(--fw-light);
+            max-width: 560px;
+            margin: 0 auto 3rem;
+        }
+
+        /* Palette swatches */
+        .philosophy-palette {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .palette-swatch {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+        }
+
+        .swatch-circle {
+            width: 28px;
+            height: 28px;
+            transform: rotate(45deg);
+            flex-shrink: 0;
+            border: 0.5px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .swatch-info {}
+
+        .swatch-name {
+            font-size: 0.62rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--clr-text-secondary);
+            display: block;
+            line-height: 1.2;
+        }
+
+        .swatch-hex {
+            font-size: 0.52rem;
+            letter-spacing: 0.1em;
+            color: var(--clr-text-muted);
+            display: block;
+            margin-top: 1px;
+        }
+
+        /* Three design pillars below card */
+        .philosophy-pillars {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+            margin-top: 4rem;
+            border: 0.5px solid var(--clr-border);
+        }
+
+        .philo-pillar {
+            padding: 2.75rem 2.25rem;
+            border-right: 0.5px solid var(--clr-border);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: background 0.4s ease;
+        }
+
+        .philo-pillar:last-child {
+            border-right: none;
+        }
+
+        .philo-pillar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--clr-gold), transparent);
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.55s ease;
+        }
+
+        .philo-pillar:hover::before {
+            transform: scaleX(1);
+        }
+
+        .philo-pillar:hover {
+            background: rgba(10, 43, 34, 0.1);
+        }
+
+        .philo-num {
+            font-family: var(--ff-serif);
+            font-size: 3rem;
+            color: var(--clr-text-ghost);
+            line-height: 1;
+            font-weight: var(--fw-regular);
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.35s ease;
+        }
+
+        .philo-pillar:hover .philo-num {
+            color: var(--clr-gold);
+        }
+
+        .philo-title {
+            font-family: var(--ff-serif);
+            font-size: 1rem;
+            color: var(--clr-text-primary);
+            margin-bottom: 0.75rem;
+            font-weight: var(--fw-regular);
+        }
+
+        .philo-desc {
+            font-size: 0.7rem;
+            line-height: 1.95;
+            color: var(--clr-text-muted);
+            font-weight: var(--fw-light);
+        }
+
+
+        /* ── §5 TEAM / VISION STRIP (bonus section) ─────────── */
+
+        #vision {
+            padding: 8rem 0;
+            position: relative;
+            overflow: hidden;
+            border-top: 0.5px solid var(--clr-border);
+        }
+
+        .vision-container {
+            max-width: var(--max-w);
+            margin: 0 auto;
+            padding: 0 var(--section-px);
+        }
+
+        .vision-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 7rem;
+            align-items: center;
+        }
+
+        .vision-text-col {}
+
+        .vision-title {
+            font-size: clamp(2rem, 4vw, 3.25rem);
+            line-height: 1.06;
+            margin: 0.6rem 0 2rem;
+        }
+
+        .vision-body {
+            font-size: 0.82rem;
+            line-height: 2.1;
+            color: var(--clr-text-muted);
+            margin-bottom: 1.25rem;
+        }
+
+        .vision-signature {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            margin-top: 2.5rem;
+            padding-top: 2rem;
+            border-top: 0.5px solid var(--clr-border);
+        }
+
+        .sig-avatar {
+            width: 46px;
+            height: 46px;
+            background: var(--clr-emerald-glow);
+            border: 0.5px solid var(--clr-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--ff-serif);
+            font-size: 1.1rem;
+            color: var(--clr-gold);
+            flex-shrink: 0;
+            font-weight: var(--fw-regular);
+        }
+
+        .sig-name {
+            font-family: var(--ff-serif);
+            font-size: 0.95rem;
+            color: var(--clr-text-primary);
+            display: block;
+            font-weight: var(--fw-regular);
+        }
+
+        .sig-title {
+            font-size: 0.55rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--clr-text-muted);
+            display: block;
+            margin-top: 0.25rem;
+        }
+
+        /* Image grid mosaic */
+        .vision-mosaic {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 260px 180px;
+            gap: 0.75rem;
+        }
+
+        .mosaic-cell {
+            overflow: hidden;
+            border: 0.5px solid var(--clr-border);
+            position: relative;
+            background: linear-gradient(135deg, #112b1f 0%, #07140e 100%);
+            transition: border-color 0.4s ease;
+        }
+
+        .mosaic-cell:first-child {
+            grid-row: span 2;
+        }
+
+        .mosaic-cell:hover {
+            border-color: rgba(176, 141, 87, 0.35);
+        }
+
+        .mosaic-cell img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            background: linear-gradient(135deg, #0f2418 0%, #040807 100%);
+            transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .mosaic-cell:hover img {
+            transform: scale(1.06);
+        }
+
+        /* Overlay label on first mosaic cell */
+        .mosaic-cell-label {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            right: 1rem;
+            z-index: 2;
+            background: rgba(4, 8, 7, 0.75);
+            backdrop-filter: blur(10px);
+            border: 0.5px solid var(--clr-border);
+            padding: 0.6rem 0.85rem;
+            pointer-events: none;
+        }
+
+        .mosaic-cell-label span {
+            font-size: 0.55rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--clr-gold);
+            display: block;
+        }
+
+
+        /* ── §6 AWARDS / RECOGNITION TICKER ───────────────── */
+
+        #recognition {
+            padding: 0;
+            border-top: 0.5px solid var(--clr-border);
+            border-bottom: 0.5px solid var(--clr-border);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .ticker-wrap {
+            display: flex;
+            width: 100%;
+            overflow: hidden;
+            padding: 1.5rem 0;
+            mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+            -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+        }
+
+        .ticker-track {
+            display: flex;
+            gap: 3.5rem;
+            white-space: nowrap;
+            animation: ticker-scroll 28s linear infinite;
+            will-change: transform;
+        }
+
+        @keyframes ticker-scroll {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+        .ticker-track:hover {
+            animation-play-state: paused;
+        }
+
+        .ticker-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            flex-shrink: 0;
+        }
+
+        .ticker-diamond {
+            width: 5px;
+            height: 5px;
+            background: var(--clr-gold);
+            transform: rotate(45deg);
+            opacity: 0.6;
+            flex-shrink: 0;
+        }
+
+        .ticker-text {
+            font-family: var(--ff-sans);
+            font-size: 0.6rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--clr-text-muted);
+            font-weight: var(--fw-light);
+        }
+
+        .ticker-highlight {
+            color: var(--clr-gold);
+            font-weight: var(--fw-medium);
+        }
+
+
+        /* ── RESPONSIVE ─────────────────────────────────────── */
+
+        @media (max-width: 1100px) {
+            .origin-grid {
+                grid-template-columns: 1fr;
+                gap: 5rem;
+            }
+
+            .vision-grid {
+                grid-template-columns: 1fr;
+                gap: 4.5rem;
+            }
+
+            .philosophy-pillars {
+                grid-template-columns: 1fr;
+            }
+
+            .philo-pillar {
+                border-right: none;
+                border-bottom: 0.5px solid var(--clr-border);
+            }
+
+            .philo-pillar:last-child {
+                border-bottom: none;
+            }
+
+            .origin-location-chip {
+                top: 1rem;
+                right: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            #origin,
+            #timeline,
+            #philosophy,
+            #vision {
+                padding: 6rem 0;
+            }
+
+            /* Timeline collapses to single column */
+            .timeline-spine {
+                display: none;
+            }
+
+            .tl-item {
+                grid-template-columns: 36px 1fr;
+                grid-template-rows: auto;
+            }
+
+            .tl-item.left .tl-content,
+            .tl-item.right .tl-content {
+                grid-column: 2;
+                text-align: left;
+            }
+
+            .tl-item.left .tl-dot-col,
+            .tl-item.right .tl-dot-col {
+                grid-column: 1;
+                grid-row: 1;
+            }
+
+            .tl-item.left .tl-spacer,
+            .tl-item.right .tl-spacer {
+                display: none;
+            }
+
+            .tl-content-inner {
+                padding: 1rem;
+            }
+
+            .philosophy-card {
+                padding: 2.5rem 1.75rem;
+            }
+
+            .philosophy-palette {
+                gap: 1.25rem;
+            }
+
+            .origin-dots {
+                display: none;
+            }
+
+            .vision-mosaic {
+                grid-template-columns: 1fr;
+                grid-template-rows: 220px 180px;
+            }
+
+            .mosaic-cell:first-child {
+                grid-row: 1;
+            }
+
+            .hero-corner.bl,
+            .hero-corner.br {
+                bottom: 9rem;
+            }
+
+            .origin-figures {
+                flex-wrap: wrap;
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .hero-main-title {
+                font-size: clamp(2rem, 12vw, 3.5rem);
+            }
+
+            .philosophy-pillars {
+                border: none;
+            }
+
+            .philo-pillar {
+                border: 0.5px solid var(--clr-border);
+                margin-bottom: 0.5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ═══════════════════════════════════════════════════
+       HEADER
+       ═══════════════════════════════════════════════════ -->
+    <header id="site-header">
+        <div class="nav-wrapper">
+            <a href="index.html" class="nav-logo" aria-label="Haylo Hotel — Home">
+                <div class="nav-logo-emblem" aria-hidden="true"></div>
+                <div class="nav-logo-name">
+                    <span class="name">Haylo</span>
+                    <span class="tagline">Hotel &amp; Residences</span>
+                </div>
+            </a>
+
+            <nav aria-label="Primary navigation">
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="suites.html">Suites</a></li>
+                    <li><a href="heritage.html" class="active">Heritage</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                </ul>
+            </nav>
+
+            <div class="nav-actions">
+                <a href="tel:+256200000000" class="nav-tel">+256 200 000 000</a>
+                <a href="suites.html" class="nav-book-btn"><span>Reserve</span></a>
+                <button class="nav-hamburger" id="nav-toggle" aria-label="Open menu" aria-expanded="false"
+                    aria-controls="nav-mobile-drawer">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
+        </div>
+
+        <nav id="nav-mobile-drawer" class="nav-mobile-drawer" aria-label="Mobile navigation" aria-hidden="true">
+            <a href="index.html">Home</a>
+            <a href="suites.html">Suites &amp; Rooms</a>
+            <a href="heritage.html">Our Heritage</a>
+            <a href="contact.html">Contact</a>
+            <a href="dashboard.html">Guest Dashboard</a>
+            <a href="suites.html" class="nav-mobile-cta">Reserve a Suite</a>
+        </nav>
+    </header>
+
+
+    <main>
+
+        <!-- ═══════════════════════════════════════════════════
+         §1  CINEMATIC HERO
+         ═══════════════════════════════════════════════════ -->
+        <section id="heritage-hero" aria-label="Heritage hero">
+
+            <!-- Parallax layer (JS moves this on scroll) -->
+            <div class="hero-parallax-bg" id="hero-parallax-bg" aria-hidden="true"></div>
+            <div class="hero-grain" aria-hidden="true"></div>
+            <div class="hero-overlay-vignette" aria-hidden="true"></div>
+
+            <!-- Decorative corners -->
+            <div class="hero-corner tl" aria-hidden="true"></div>
+            <div class="hero-corner tr" aria-hidden="true"></div>
+            <div class="hero-corner bl" aria-hidden="true"></div>
+            <div class="hero-corner br" aria-hidden="true"></div>
+
+            <!-- Hero text -->
+            <div class="hero-content-wrap">
+                <p class="hero-pre-label" aria-hidden="true">
+                    Kampala &nbsp;·&nbsp; Est. 2018 &nbsp;·&nbsp; Uganda
+                </p>
+
+                <h1 class="hero-main-title" id="heritage-hero-title">
+                    A Legacy<br />Defined by<br />
+                    <span class="shimmer-word">Silence</span>
+                </h1>
+
+                <span class="hero-title-divider" aria-hidden="true"></span>
+
+                <p class="hero-sub">
+                    Where every stone holds a story, and every detail speaks volumes
+                </p>
+            </div>
+
+            <!-- Scroll invitation -->
+            <div class="hero-scroll-hint" aria-hidden="true">
+                <div class="scroll-mouse"></div>
+                <span>Scroll to discover</span>
+            </div>
+
+        </section><!-- /#heritage-hero -->
+
+
+        <!-- ═══════════════════════════════════════════════════
+         §TICKER — Awards recognition marquee
+         ═══════════════════════════════════════════════════ -->
+        <div id="recognition" role="marquee" aria-label="Awards and recognition">
+            <div class="ticker-wrap">
+                <div class="ticker-track" id="ticker-track">
+                    <!-- Items duplicated by JS for seamless loop -->
+                    <span class="ticker-item">
+                        <span class="ticker-diamond" aria-hidden="true"></span>
+                        <span class="ticker-text"><span class="ticker-highlight">Best Luxury Hotel</span> · East Africa
+                            2024</span>
+                    </span>
+                    <span class="ticker-item">
+                        <span class="ticker-diamond" aria-hidden="true"></span>
+                        <span class="ticker-text"><span class="ticker-highlight">98%</span> Guest Satisfaction
+                            Score</span>
+                    </span>
+                    <span class="ticker-item">
+                        <span class="ticker-diamond" aria-hidden="true"></span>
+                        <span class="ticker-text"><span class="ticker-highlight">Architectural Excellence</span> ·
+                            Uganda 2023</span>
+                    </span>
+                    <span class="ticker-item">
+                        <span class="ticker-diamond" aria-hidden="true"></span>
+                        <span class="ticker-text"><span class="ticker-highlight">Fine Dining Award</span> · Kampala Food
+                            Week 2024</span>
+                    </span>
+                    <span class="ticker-item">
+                        <span class="ticker-diamond" aria-hidden="true"></span>
+                        <span class="ticker-text"><span class="ticker-highlight">Top 50 Hotels</span> · Condé Nast
+                            Africa 2024</span>
+                    </span>
+                    <span class="ticker-item">
+                        <span class="ticker-diamond" aria-hidden="true"></span>
+                        <span class="ticker-text"><span class="ticker-highlight">Sustainability Honour</span> · Green
+                            Hospitality 2023</span>
+                    </span>
+                    <span class="ticker-item">
+                        <span class="ticker-diamond" aria-hidden="true"></span>
+                        <span class="ticker-text"><span class="ticker-highlight">Best Spa</span> · Hospitality Uganda
+                            Awards</span>
+                    </span>
+                    <span class="ticker-item">
+                        <span class="ticker-diamond" aria-hidden="true"></span>
+                        <span class="ticker-text"><span class="ticker-highlight">15 Years</span> of Uncompromising
+                            Craft</span>
+                    </span>
+                </div>
+            </div>
+        </div><!-- /#recognition -->
+
+
+        <!-- ═══════════════════════════════════════════════════
+         §2  ORIGIN STORY — Split Layout
+         ═══════════════════════════════════════════════════ -->
+        <section id="origin" aria-labelledby="origin-title">
+            <div class="origin-grid">
+
+                <!-- Image -->
+                <div class="origin-image-col reveal from-left" data-delay="0">
+                    <div class="origin-dots" aria-hidden="true"></div>
+
+                    <div class="origin-img-frame">
+                        <img src="assets/images/hero/heritage.jpg"
+                            alt="The original Haylo Hotel building on Nakawa Hill, Kampala — 2018" class="origin-img"
+                            loading="lazy" width="640" height="853" />
+                    </div>
+
+                    <div class="origin-location-chip" aria-label="Location: Nakawa Hill, Kampala">
+                        <span class="loc-label">Location</span>
+                        <span class="loc-value">Nakawa Hill</span>
+                    </div>
+                </div>
+
+                <!-- Text -->
+                <div class="origin-text-col">
+
+                    <div class="reveal from-right" data-delay="0.1">
+                        <p class="origin-chapter">The Beginning</p>
+                        <h2 class="origin-title" id="origin-title">
+                            Born from the<br />Hills of <em>Nakawa</em>
+                        </h2>
+                    </div>
+
+                    <div class="reveal from-right" data-delay="0.25">
+                        <p class="origin-body">
+                            In 2018, on a quiet escarpment above Kampala's eastern horizon,
+                            a building began that would redefine what luxury hospitality means
+                            in East Africa. The founders — a family of architects and restaurateurs —
+                            had a simple and radical conviction: that a hotel should feel like
+                            the finest home you have never lived in.
+                        </p>
+
+                        <div class="origin-pullquote">
+                            <p>
+                                We did not build Haylo to compete with the world. We built it
+                                to give Kampala something that had never existed here before —
+                                a place where silence is a luxury, and every detail is a declaration.
+                            </p>
+                        </div>
+
+                        <p class="origin-body">
+                            Every material was sourced with intention. The volcanic stone facing
+                            the western facade came from the Rwenzori foothills. The hand-woven
+                            linen was commissioned from artisans in Masindi. The garden, planted
+                            before a single room was furnished, was designed to mature with the building
+                            over twenty years. This is not a hotel that was built quickly.
+                        </p>
+                    </div>
+
+                    <div class="reveal from-right" data-delay="0.4">
+                        <div class="origin-figures" aria-label="Key heritage figures">
+                            <div class="fig-item">
+                                <span class="fig-num">2018</span>
+                                <span class="fig-lbl">Year Founded</span>
+                            </div>
+                            <div class="fig-item">
+                                <span class="fig-num">48</span>
+                                <span class="fig-lbl">Signature Suites</span>
+                            </div>
+                            <div class="fig-item">
+                                <span class="fig-num">3</span>
+                                <span class="fig-lbl">Dining Venues</span>
+                            </div>
+                            <div class="fig-item">
+                                <span class="fig-num">1</span>
+                                <span class="fig-lbl">Standard: Perfection</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- /origin-text-col -->
+            </div><!-- /origin-grid -->
+        </section><!-- /#origin -->
+
+
+        <!-- ═══════════════════════════════════════════════════
+         §3  INTERACTIVE TIMELINE
+         ═══════════════════════════════════════════════════ -->
+        <section id="timeline" aria-labelledby="timeline-title">
+            <div class="timeline-container">
+
+                <div class="timeline-header reveal from-up">
+                    <span class="section-label" style="justify-content:center;">A Decade of Craft</span>
+                    <h2 id="timeline-title">Milestones That<br />Shaped Our Story</h2>
+                    <p>From the first stone to our most recent accolade — each chapter written with the same unyielding
+                        care.</p>
+                </div>
+
+                <div class="timeline-spine-wrap">
+                    <!-- Gold vertical spine — drawn by JS on scroll -->
+                    <div class="timeline-spine" id="timeline-spine" aria-hidden="true"></div>
+
+                    <!-- Timeline Items -->
+
+                    <div class="tl-item right" data-tl-index="0">
+                        <div class="tl-content">
+                            <div class="tl-content-inner">
+                                <span class="tl-year">2018</span>
+                                <h3 class="tl-milestone">The First Stone</h3>
+                                <p class="tl-detail">
+                                    Groundbreaking ceremony on Nakawa Hill. Construction begins
+                                    with a team of 240 artisans and a founding architect's brief
+                                    of six words: "Build it to last 200 years."
+                                </p>
+                            </div>
+                        </div>
+                        <div class="tl-dot-col">
+                            <div class="tl-dot" aria-hidden="true"></div>
+                        </div>
+                        <div class="tl-spacer"></div>
+                    </div>
+
+                    <div class="tl-item left" data-tl-index="1">
+                        <div class="tl-spacer"></div>
+                        <div class="tl-dot-col">
+                            <div class="tl-dot" aria-hidden="true"></div>
+                        </div>
+                        <div class="tl-content">
+                            <div class="tl-content-inner">
+                                <span class="tl-year">2019</span>
+                                <h3 class="tl-milestone">The Garden is Planted</h3>
+                                <p class="tl-detail">
+                                    Twelve months before the first guest arrives, the grounds are
+                                    landscaped. A head gardener from Entebbe Botanical Gardens is
+                                    appointed to oversee a 20-year growth plan for the estate.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tl-item right" data-tl-index="2">
+                        <div class="tl-content">
+                            <div class="tl-content-inner">
+                                <span class="tl-year">2020</span>
+                                <h3 class="tl-milestone">Doors Open</h3>
+                                <p class="tl-detail">
+                                    Haylo Hotel opens its doors — quietly, without fanfare — with
+                                    18 suites and a reservation list already six months deep. The
+                                    hotel's first full year ends at 96% occupancy.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="tl-dot-col">
+                            <div class="tl-dot" aria-hidden="true"></div>
+                        </div>
+                        <div class="tl-spacer"></div>
+                    </div>
+
+                    <div class="tl-item left" data-tl-index="3">
+                        <div class="tl-spacer"></div>
+                        <div class="tl-dot-col">
+                            <div class="tl-dot" aria-hidden="true"></div>
+                        </div>
+                        <div class="tl-content">
+                            <div class="tl-content-inner">
+                                <span class="tl-year">2021</span>
+                                <h3 class="tl-milestone">The Spa Opens</h3>
+                                <p class="tl-detail">
+                                    The 1,400m² Haylo Spa launches with a programme built on
+                                    ancient Ugandan wellness traditions, reimagined for the
+                                    contemporary guest. A three-year waitlist forms within days.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tl-item right" data-tl-index="4">
+                        <div class="tl-content">
+                            <div class="tl-content-inner">
+                                <span class="tl-year">2022</span>
+                                <h3 class="tl-milestone">East Africa's Best</h3>
+                                <p class="tl-detail">
+                                    Haylo is named Best Luxury Hotel in East Africa at the
+                                    Continental Hospitality Awards — the first Ugandan property
+                                    to receive the honour in the event's 22-year history.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="tl-dot-col">
+                            <div class="tl-dot" aria-hidden="true"></div>
+                        </div>
+                        <div class="tl-spacer"></div>
+                    </div>
+
+                    <div class="tl-item left" data-tl-index="5">
+                        <div class="tl-spacer"></div>
+                        <div class="tl-dot-col">
+                            <div class="tl-dot" aria-hidden="true"></div>
+                        </div>
+                        <div class="tl-content">
+                            <div class="tl-content-inner">
+                                <span class="tl-year">2024</span>
+                                <h3 class="tl-milestone">The Residences Launch</h3>
+                                <p class="tl-detail">
+                                    The Sky Residences — six long-stay apartments for guests who
+                                    wish to remain indefinitely — open in the extended east wing.
+                                    All six are reserved within 48 hours of announcement.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tl-item right" data-tl-index="6">
+                        <div class="tl-content">
+                            <div class="tl-content-inner">
+                                <span class="tl-year">2026</span>
+                                <h3 class="tl-milestone">The Story Continues</h3>
+                                <p class="tl-detail">
+                                    Today. With 48 suites, three restaurants, a world-class spa,
+                                    and a reputation that precedes itself across four continents —
+                                    Haylo's finest chapter is always the one being written now.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="tl-dot-col">
+                            <div class="tl-dot" aria-hidden="true"></div>
+                        </div>
+                        <div class="tl-spacer"></div>
+                    </div>
+
+                </div><!-- /timeline-spine-wrap -->
+            </div><!-- /timeline-container -->
+        </section><!-- /#timeline -->
+
+
+        <!-- ═══════════════════════════════════════════════════
+         §4  DESIGN PHILOSOPHY — Glassmorphic Card
+         ═══════════════════════════════════════════════════ -->
+        <section id="philosophy" aria-labelledby="philosophy-title">
+            <div class="philosophy-bg" aria-hidden="true"></div>
+            <div class="philosophy-grid-lines" aria-hidden="true"></div>
+
+            <div class="philosophy-inner">
+
+                <!-- Main centred glass card -->
+                <div class="philosophy-card reveal from-scale" data-delay="0">
+                    <div class="philosophy-card-content">
+
+                        <div class="philosophy-emblem" aria-hidden="true"></div>
+
+                        <span class="section-label" style="justify-content:center; margin-bottom:0.6rem;">The Design
+                            Philosophy</span>
+                        <h2 id="philosophy-title">
+                            Obsidian &amp; Gold —<br />A Language of Restraint
+                        </h2>
+
+                        <p class="philosophy-body">
+                            Every surface at Haylo was chosen not for its cost but for
+                            its character. The deep obsidian that defines our walls is not
+                            darkness — it is a canvas onto which light performs. The gold
+                            that traces our edges is not decoration — it is the signature
+                            of a commitment to craft that runs through every detail from
+                            the architecture down to the thread count of the linen.
+                            This is a hotel that believes silence is the ultimate luxury,
+                            and that restraint — wielded with precision — is the highest
+                            form of design.
+                        </p>
+
+                        <!-- Palette swatches -->
+                        <div class="philosophy-palette" aria-label="Haylo design palette">
+                            <div class="palette-swatch">
+                                <div class="swatch-circle" style="background:#040807;" aria-hidden="true"></div>
+                                <div class="swatch-info">
+                                    <span class="swatch-name">Obsidian</span>
+                                    <span class="swatch-hex">#040807</span>
+                                </div>
+                            </div>
+                            <div class="palette-swatch">
+                                <div class="swatch-circle" style="background:#0a2b22;" aria-hidden="true"></div>
+                                <div class="swatch-info">
+                                    <span class="swatch-name">Emerald Glow</span>
+                                    <span class="swatch-hex">#0a2b22</span>
+                                </div>
+                            </div>
+                            <div class="palette-swatch">
+                                <div class="swatch-circle" style="background:#b08d57;" aria-hidden="true"></div>
+                                <div class="swatch-info">
+                                    <span class="swatch-name">Heritage Gold</span>
+                                    <span class="swatch-hex">#b08d57</span>
+                                </div>
+                            </div>
+                            <div class="palette-swatch">
+                                <div class="swatch-circle" style="background:#ede7da;" aria-hidden="true"></div>
+                                <div class="swatch-info">
+                                    <span class="swatch-name">Warm Ivory</span>
+                                    <span class="swatch-hex">#ede7da</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div><!-- /philosophy-card -->
+
+                <!-- Three pillars below -->
+                <div class="philosophy-pillars reveal from-up" data-delay="0.25" style="margin-top:4rem;">
+
+                    <div class="philo-pillar">
+                        <span class="philo-num" aria-hidden="true">01</span>
+                        <h3 class="philo-title">The Architecture</h3>
+                        <p class="philo-desc">
+                            Volcanic stone, reclaimed timber, and hand-laid terrazzo.
+                            Materials chosen not for their modernity but for the story
+                            they tell about the land they came from.
+                        </p>
+                    </div>
+
+                    <div class="philo-pillar">
+                        <span class="philo-num" aria-hidden="true">02</span>
+                        <h3 class="philo-title">The Atmosphere</h3>
+                        <p class="philo-desc">
+                            Every corridor, threshold, and room transition is designed
+                            to slow the guest's pace. We believe that deceleration is
+                            the beginning of genuine rest.
+                        </p>
+                    </div>
+
+                    <div class="philo-pillar">
+                        <span class="philo-num" aria-hidden="true">03</span>
+                        <h3 class="philo-title">The Detail</h3>
+                        <p class="philo-desc">
+                            The logo, the linen, the weight of the door handle, the
+                            scent of the corridor at dusk — each is the result of
+                            deliberation that spans months, sometimes years.
+                        </p>
+                    </div>
+
+                </div><!-- /philosophy-pillars -->
+            </div><!-- /philosophy-inner -->
+        </section><!-- /#philosophy -->
+
+
+        <!-- ═══════════════════════════════════════════════════
+         §5  VISION — Founder's message + mosaic
+         ═══════════════════════════════════════════════════ -->
+        <section id="vision" aria-labelledby="vision-title">
+            <div class="vision-container">
+                <div class="vision-grid">
+
+                    <!-- Text -->
+                    <div class="vision-text-col">
+                        <div class="reveal from-left" data-delay="0">
+                            <span class="section-label">The Founder's Vision</span>
+                            <h2 class="vision-title" id="vision-title">
+                                Built to Endure<br />the Next Century
+                            </h2>
+                        </div>
+
+                        <div class="reveal from-left" data-delay="0.18">
+                            <p class="vision-body">
+                                When we began, people asked us what kind of hotel we wanted
+                                to build. We answered: the kind that improves with time. The kind
+                                that a guest returns to twenty years later and finds more beautiful
+                                than when they left. We were not building for a market — we were
+                                building for a generation.
+                            </p>
+                            <p class="vision-body">
+                                Our commitment to the region runs deeper than the hospitality
+                                industry. Every artisan who worked on this building was trained
+                                here. Every supplier operates within a 300km radius. Haylo's
+                                story is inseparable from Uganda's story — and we consider that
+                                the greatest privilege of all.
+                            </p>
+
+                            <div class="vision-signature" aria-label="Founder signature">
+                                <div class="sig-avatar" aria-hidden="true">H</div>
+                                <div>
+                                    <span class="sig-name">James Haylo</span>
+                                    <span class="sig-title">Founder &amp; Chairman · Haylo Hotel</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="reveal from-left" data-delay="0.3">
+                            <div style="margin-top:2.5rem;">
+                                <a href="suites.html" class="btn-gold">
+                                    <span>Experience Haylo</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mosaic -->
+                    <div class="vision-mosaic reveal from-right" data-delay="0.12">
+                        <div class="mosaic-cell">
+                            <img src="assets/images/hero/heritage.jpg"
+                                alt="Haylo Hotel exterior — Nakawa Hill elevation" loading="lazy" width="400"
+                                height="560" />
+                            <div class="mosaic-cell-label">
+                                <span>Haylo Estate · Kampala</span>
+                            </div>
+                        </div>
+                        <div class="mosaic-cell">
+                            <img src="assets/images/rooms/executive-master.jpg"
+                                alt="Haylo interior — Executive suite living area" loading="lazy" width="400"
+                                height="260" />
+                        </div>
+                        <div class="mosaic-cell">
+                            <img src="assets/images/rooms/lakeside-garden.jpg"
+                                alt="Haylo gardens — lakeside terrace at dusk" loading="lazy" width="400"
+                                height="180" />
+                        </div>
+                    </div>
+
+                </div><!-- /vision-grid -->
+            </div><!-- /vision-container -->
+        </section><!-- /#vision -->
+
+    </main><!-- /main -->
+
+
+    <!-- ═══════════════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════════════ -->
+    <footer id="site-footer">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <span class="footer-logo">Haylo Hotel</span>
+                <p class="tagline">
+                    A sanctuary for those who seek the exceptional. Kampala's most
+                    distinguished address — where every detail is an act of intention.
+                </p>
+                <div class="footer-social" aria-label="Social media links">
+                    <a href="#" aria-label="Instagram">Ig</a>
+                    <a href="#" aria-label="Facebook">Fb</a>
+                    <a href="#" aria-label="Twitter / X">X</a>
+                    <a href="#" aria-label="LinkedIn">Li</a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <span class="footer-col-title">Navigate</span>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="suites.html">Suites &amp; Rooms</a></li>
+                    <li><a href="heritage.html">Our Heritage</a></li>
+                    <li><a href="dashboard.html">Guest Dashboard</a></li>
+                    <li><a href="admin.html">Administration</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <span class="footer-col-title">Experiences</span>
+                <ul>
+                    <li><a href="#">Fine Dining</a></li>
+                    <li><a href="#">Spa &amp; Wellness</a></li>
+                    <li><a href="#">Infinity Pool</a></li>
+                    <li><a href="#">Concierge Services</a></li>
+                    <li><a href="#">Events &amp; Weddings</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <span class="footer-col-title">Contact</span>
+                <address>
+                    <p>Plot 42, Nakasero Hill<br />Kampala, Uganda</p><br />
+                    <p><a href="tel:+256200000000">+256 200 000 000</a></p>
+                    <p><a href="mailto:hello@haylohotel.com">hello@haylohotel.com</a></p>
+                    <br />
+                    <p>Open 24 hours, every day</p>
+                </address>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-bottom-inner">
+                <p class="footer-copyright">
+                    &copy; 2026 Haylo Hotel &amp; Residences. All rights reserved.
+                </p>
+                <nav class="footer-legal" aria-label="Legal links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Preferences</a>
+                </nav>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Scripts -->
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/heritage.js"></script>
+
+</body>
+
+</html>
