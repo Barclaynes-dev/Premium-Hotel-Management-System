@@ -1,0 +1,1751 @@
+<!DOCTYPE html>
+<html lang="en" data-auth-state="login">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Haylo Hotel — Sign in or create your account to access your concierge portal." />
+    <meta name="theme-color" content="#040807" />
+    <title>Concierge Access — Haylo Hotel</title>
+
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23040807'/><rect x='12' y='12' width='8' height='8' fill='%23b08d57' transform='rotate(45 16 16)'/></svg>" />
+
+    <link rel="stylesheet" href="assets/css/global.css" />
+    <link rel="stylesheet" href="assets/css/layout.css" />
+    <link rel="stylesheet" href="assets/css/components.css" />
+
+    <!-- ══════════════════════════════════════════════════════
+       AUTH PAGE — INTERNAL STYLES
+       Complex keyframes, split-canvas layout, state
+       transitions, shared-element motion, form design.
+       ══════════════════════════════════════════════════════ -->
+    <style>
+        /* ── Hide global header on this page ───────────────── */
+        #site-header,
+        #nav-mobile-drawer {
+            display: none !important;
+        }
+
+        /* ── Body reset for full-canvas auth ───────────────── */
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+            /* lock scroll on auth page */
+        }
+
+        body {
+            background: var(--clr-obsidian);
+        }
+
+        /* Mobile: restore scroll */
+        @media (max-width: 900px) {
+
+            html,
+            body {
+                overflow: auto;
+            }
+        }
+
+
+        /* ══════════════════════════════════════════════════════
+       KEYFRAMES
+       ══════════════════════════════════════════════════════ */
+
+        @keyframes auth-grain {
+
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            20% {
+                transform: translate(-1%, 0.5%) rotate(0.3deg);
+            }
+
+            40% {
+                transform: translate(0.5%, -1%) rotate(-0.3deg);
+            }
+
+            60% {
+                transform: translate(-0.5%, 0.5%) rotate(0.2deg);
+            }
+
+            80% {
+                transform: translate(1%, -0.5%) rotate(-0.2deg);
+            }
+        }
+
+        @keyframes form-enter {
+            0% {
+                opacity: 0;
+                transform: translateY(22px) scale(0.984);
+                filter: blur(6px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes form-exit {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-18px) scale(0.988);
+                filter: blur(4px);
+            }
+        }
+
+        @keyframes field-cascade {
+            0% {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes logo-pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.65;
+            }
+        }
+
+        @keyframes diagonal-slide-in {
+            0% {
+                transform: skewX(-2deg) translateX(-8px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: skewX(0deg) translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes glow-breathe {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(176, 141, 87, 0);
+            }
+
+            50% {
+                box-shadow: 0 0 28px 6px rgba(176, 141, 87, 0.1);
+            }
+        }
+
+        @keyframes float-particle {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.6;
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+                opacity: 0.2;
+            }
+
+            100% {
+                transform: translateY(0) rotate(360deg);
+                opacity: 0.6;
+            }
+        }
+
+        @keyframes curve-shift {
+            0% {
+                d: path('M0,0 C80,50 80,50 0,100');
+            }
+
+            100% {
+                d: path('M0,0 C60,40 60,60 0,100');
+            }
+        }
+
+        @keyframes slide-toggle-pill {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(100%);
+            }
+        }
+
+        @keyframes shimmer-text {
+            0% {
+                background-position: -300% center;
+            }
+
+            100% {
+                background-position: 300% center;
+            }
+        }
+
+        @keyframes portal-open {
+            0% {
+                clip-path: circle(0% at 50% 50%);
+                opacity: 0;
+            }
+
+            100% {
+                clip-path: circle(150% at 50% 50%);
+                opacity: 1;
+            }
+        }
+
+        @keyframes auth-page-in {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+
+        /* ══════════════════════════════════════════════════════
+       LAYOUT — FULL CANVAS SPLIT
+       ══════════════════════════════════════════════════════ */
+
+        .auth-canvas {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 100vh;
+            position: relative;
+            animation: auth-page-in 0.8s ease both;
+            overflow: hidden;
+        }
+
+
+        /* ══════════════════════════════════════════════════════
+       LEFT PANEL — BRANDING SIDE
+       ══════════════════════════════════════════════════════ */
+
+        .auth-brand {
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        /* Background image layers — one for login, one for register */
+        .brand-bg {
+            position: absolute;
+            inset: -8%;
+            background-size: cover;
+            background-position: center 30%;
+            will-change: transform;
+            transition:
+                transform 1.1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                opacity 0.9s ease;
+        }
+
+        /* Login image — deep exterior night shot */
+        .brand-bg-login {
+            background-image: 
+                linear-gradient(rgba(4, 8, 7, 0.4), rgba(4, 8, 7, 0.4)),
+                url('assets/images/rooms/hero-image main.png');
+            background-size: cover;
+            background-position: center 30%;
+            transform: translateY(0) scale(1.08);
+        }
+
+        /* Register image — warm interior lobby */
+        .brand-bg-register {
+            background-image: 
+                linear-gradient(rgba(4, 8, 7, 0.4), rgba(4, 8, 7, 0.4)),
+                url('assets/images/rooms/About_image main.png');
+            background-size: cover;
+            background-position: center;
+            transform: translateY(5%) scale(1.08);
+            opacity: 0;
+        }
+
+        /* State transitions on images */
+        [data-auth-state="login"] .brand-bg-login {
+            opacity: 1;
+            transform: translateY(0) scale(1.04);
+        }
+
+        [data-auth-state="login"] .brand-bg-register {
+            opacity: 0;
+            transform: translateY(5%) scale(1.08);
+        }
+
+        [data-auth-state="register"] .brand-bg-login {
+            opacity: 0;
+            transform: translateY(-5%) scale(1.08);
+        }
+
+        [data-auth-state="register"] .brand-bg-register {
+            opacity: 1;
+            transform: translateY(0) scale(1.04);
+        }
+
+        /* Film grain overlay */
+        .brand-grain {
+            position: absolute;
+            inset: -30%;
+            z-index: 1;
+            opacity: 0.045;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            background-size: 256px;
+            animation: auth-grain 8s steps(4) infinite;
+            pointer-events: none;
+        }
+
+        /* Overlay gradients */
+        .brand-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            background:
+                linear-gradient(180deg, rgba(4, 8, 7, 0.55) 0%, rgba(4, 8, 7, 0.12) 40%, rgba(4, 8, 7, 0.70) 100%),
+                radial-gradient(ellipse 60% 50% at 50% 50%, transparent 30%, rgba(4, 8, 7, 0.35) 100%);
+            pointer-events: none;
+        }
+
+        /* Curved SVG separator on the right edge */
+        .brand-curve {
+            position: absolute;
+            top: 0;
+            right: -1px;
+            width: 80px;
+            height: 100%;
+            z-index: 10;
+            overflow: visible;
+        }
+
+        .brand-curve path {
+            fill: var(--clr-obsidian);
+            transition: d 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* Floating particles on branding side */
+        .brand-particles {
+            position: absolute;
+            inset: 0;
+            z-index: 3;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--clr-gold);
+            transform: rotate(45deg);
+            opacity: 0.3;
+            animation: float-particle var(--dur, 6s) ease-in-out infinite;
+            animation-delay: var(--del, 0s);
+        }
+
+        /* Brand internal nav */
+        .brand-nav {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 2rem 2.5rem;
+        }
+
+        /* Logo in brand nav */
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            transition: opacity 0.4s ease,
+                transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .brand-logo-emblem {
+            width: 28px;
+            height: 28px;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .brand-logo-emblem::before,
+        .brand-logo-emblem::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 0.5px solid var(--clr-gold);
+        }
+
+        .brand-logo-emblem::before {
+            transform: rotate(45deg);
+            opacity: 0.7;
+        }
+
+        .brand-logo-emblem::after {
+            transform: rotate(45deg) scale(0.5);
+            background: rgba(176, 141, 87, 0.4);
+        }
+
+        .brand-logo-text {
+            font-family: var(--ff-serif);
+            font-size: 0.82rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--clr-gold-light);
+            font-weight: var(--fw-regular);
+            line-height: 1;
+            background: linear-gradient(110deg, var(--clr-gold) 0%, var(--clr-gold-bright) 45%, var(--clr-gold) 100%);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer-text 5s linear 2s infinite;
+        }
+
+        /* State toggle pills */
+        .brand-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            background: rgba(4, 8, 7, 0.55);
+            backdrop-filter: blur(16px);
+            border: 0.5px solid var(--clr-border);
+            border-radius: 100px;
+            padding: 3px;
+            position: relative;
+        }
+
+        .brand-toggle-btn {
+            position: relative;
+            z-index: 2;
+            padding: 0.45rem 1.25rem;
+            font-family: var(--ff-sans);
+            font-size: 0.55rem;
+            font-weight: var(--fw-semibold);
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--clr-text-muted);
+            background: transparent;
+            border: none;
+            border-radius: 100px;
+            cursor: pointer;
+            transition: color 0.4s ease;
+            white-space: nowrap;
+        }
+
+        .brand-toggle-btn.active {
+            color: var(--clr-obsidian);
+        }
+
+        /* Sliding pill indicator */
+        .brand-toggle-indicator {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            height: calc(100% - 6px);
+            width: calc(50% - 3px);
+            background: var(--clr-gold);
+            border-radius: 100px;
+            z-index: 1;
+            transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+            will-change: transform;
+        }
+
+        [data-auth-state="register"] .brand-toggle-indicator {
+            transform: translateX(calc(100% + 6px));
+        }
+
+        /* Brand hero content */
+        .brand-content {
+            position: relative;
+            z-index: 5;
+            padding: 3rem 3rem 4rem;
+        }
+
+        .brand-eyebrow {
+            font-family: var(--ff-sans);
+            font-size: 0.5rem;
+            letter-spacing: 0.38em;
+            text-transform: uppercase;
+            color: var(--clr-gold);
+            font-weight: var(--fw-semibold);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .brand-eyebrow::before {
+            content: '';
+            display: block;
+            width: 24px;
+            height: 0.5px;
+            background: var(--clr-gold);
+            opacity: 0.7;
+        }
+
+        .brand-tagline {
+            font-family: var(--ff-serif);
+            font-size: clamp(1.8rem, 3.2vw, 2.8rem);
+            font-weight: var(--fw-regular);
+            color: var(--clr-text-primary);
+            line-height: 1.08;
+            letter-spacing: 0.03em;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr;
+            align-items: start;
+        }
+
+        .brand-tagline em {
+            display: block;
+            font-style: italic;
+            color: var(--clr-gold);
+            position: relative;
+        }
+
+        /* Tagline transition between states */
+        .tagline-login,
+        .tagline-register {
+            grid-area: 1 / 1;
+            display: block;
+            transition: opacity 0.6s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: opacity, transform;
+        }
+
+        [data-auth-state="login"] .tagline-login {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        [data-auth-state="login"] .tagline-register {
+            opacity: 0;
+            transform: translateY(10px);
+            pointer-events: none;
+        }
+
+        [data-auth-state="register"] .tagline-login {
+            opacity: 0;
+            transform: translateY(-10px);
+            pointer-events: none;
+        }
+
+        [data-auth-state="register"] .tagline-register {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .brand-tagline-wrap {
+            position: relative;
+        }
+
+        /* Bottom horizontal gold line */
+        .brand-rule {
+            display: block;
+            width: 48px;
+            height: 0.5px;
+            background: linear-gradient(90deg, var(--clr-gold), transparent);
+            margin-top: 1.5rem;
+        }
+
+        /* Room count stat */
+        .brand-stat {
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            margin-top: 1.75rem;
+        }
+
+        .brand-stat-num {
+            font-family: var(--ff-serif);
+            font-size: 2.2rem;
+            color: var(--clr-gold);
+            line-height: 1;
+            font-weight: var(--fw-regular);
+        }
+
+        .brand-stat-lbl {
+            font-size: 0.55rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--clr-text-muted);
+            font-weight: var(--fw-light);
+        }
+
+
+        /* ══════════════════════════════════════════════════════
+       RIGHT PANEL — FORMS SIDE
+       ══════════════════════════════════════════════════════ */
+
+        .auth-forms {
+            position: relative;
+            background: var(--clr-obsidian);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Subtle emerald atmospheric glow top-right */
+        .auth-forms::before {
+            content: '';
+            position: absolute;
+            top: -10%;
+            right: -10%;
+            width: 50%;
+            height: 50%;
+            background: radial-gradient(circle,
+                    rgba(10, 43, 34, 0.20) 0%,
+                    transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Very subtle grid lines */
+        .auth-forms::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(176, 141, 87, 0.018) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(176, 141, 87, 0.018) 1px, transparent 1px);
+            background-size: 48px 48px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Inner scroll container */
+        .auth-forms-scroll {
+            position: relative;
+            z-index: 2;
+            padding: 3rem 4rem;
+            max-height: 100vh;
+            overflow-y: auto;
+            scrollbar-width: none;
+        }
+
+        .auth-forms-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Forms header */
+        .auth-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .auth-welcome {
+            font-family: var(--ff-serif);
+            font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+            font-weight: var(--fw-regular);
+            color: var(--clr-text-primary);
+            line-height: 1.08;
+            letter-spacing: 0.02em;
+            margin-bottom: 0.4rem;
+        }
+
+        .auth-welcome span {
+            background: linear-gradient(120deg,
+                    var(--clr-gold) 0%,
+                    var(--clr-gold-bright) 45%,
+                    var(--clr-gold) 100%);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer-text 6s linear 1s infinite;
+        }
+
+        .auth-subtitle {
+            font-size: 0.72rem;
+            color: var(--clr-text-muted);
+            font-weight: var(--fw-light);
+            letter-spacing: 0.05em;
+        }
+
+        /* ── State subtitle transitions ─── */
+        .auth-sub-login,
+        .auth-sub-register {
+            display: block;
+            transition: opacity 0.5s ease;
+            position: absolute;
+        }
+
+        [data-auth-state="login"] .auth-sub-login {
+            opacity: 1;
+            position: static;
+        }
+
+        [data-auth-state="login"] .auth-sub-register {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        [data-auth-state="register"] .auth-sub-login {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        [data-auth-state="register"] .auth-sub-register {
+            opacity: 1;
+            position: static;
+        }
+
+        /* ── Form containers ─── */
+        .auth-form {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(20px) scale(0.98);
+            filter: blur(4px);
+            transition:
+                opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+                filter 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: opacity, transform, filter;
+        }
+
+        .auth-form.active {
+            opacity: 1;
+            pointer-events: all;
+            transform: translateY(0) scale(1);
+            filter: blur(0);
+            position: static;
+        }
+
+        .auth-form.exiting {
+            opacity: 0;
+            transform: translateY(-16px) scale(0.988);
+            filter: blur(3px);
+            pointer-events: none;
+            position: absolute;
+        }
+
+        /* Form fields wrapper — handles stagger */
+        .auth-form.active .form-group {
+            animation: field-cascade 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        .auth-form.active .form-group:nth-child(1) {
+            animation-delay: 0.05s;
+        }
+
+        .auth-form.active .form-group:nth-child(2) {
+            animation-delay: 0.12s;
+        }
+
+        .auth-form.active .form-group:nth-child(3) {
+            animation-delay: 0.19s;
+        }
+
+        .auth-form.active .form-group:nth-child(4) {
+            animation-delay: 0.26s;
+        }
+
+        .auth-form.active .form-group:nth-child(5) {
+            animation-delay: 0.33s;
+        }
+
+
+        /* ── Auth Input Fields (capsule style) ─── */
+
+        .form-group {
+            position: relative;
+            margin-bottom: 1.25rem;
+        }
+
+        .auth-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.028);
+            border: 0.5px solid var(--clr-border);
+            border-radius: 100px;
+            padding: 1rem 1.4rem;
+            padding-right: 3rem;
+            color: var(--clr-text-primary);
+            font-family: var(--ff-sans);
+            font-size: 0.78rem;
+            font-weight: var(--fw-light);
+            letter-spacing: 0.05em;
+            outline: none;
+            transition:
+                border-color 0.35s ease,
+                background 0.35s ease,
+                box-shadow 0.35s ease;
+            caret-color: var(--clr-gold);
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .auth-input::placeholder {
+            color: var(--clr-text-muted);
+            font-size: 0.72rem;
+            letter-spacing: 0.08em;
+        }
+
+        /* Emerald-gold focus ring */
+        .auth-input:focus {
+            border-color: rgba(176, 141, 87, 0.55);
+            background: rgba(10, 43, 34, 0.08);
+            box-shadow:
+                0 0 0 3px rgba(10, 43, 34, 0.12),
+                0 0 18px 0 rgba(176, 141, 87, 0.08);
+        }
+
+        .auth-input.error {
+            border-color: rgba(200, 80, 80, 0.55);
+            box-shadow: 0 0 0 3px rgba(200, 80, 80, 0.08);
+        }
+
+        .auth-input.valid {
+            border-color: rgba(61, 170, 114, 0.45);
+        }
+
+        /* Field icon (right side of input) */
+        .field-icon {
+            position: absolute;
+            right: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            pointer-events: none;
+        }
+
+        .field-icon svg {
+            width: 14px;
+            height: 14px;
+            stroke: var(--clr-text-muted);
+            fill: none;
+            stroke-width: 1.2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: stroke 0.3s ease;
+        }
+
+        .form-group:focus-within .field-icon svg {
+            stroke: var(--clr-gold);
+        }
+
+        /* Password toggle button */
+        .pw-toggle {
+            position: absolute;
+            right: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            pointer-events: all;
+        }
+
+        .pw-toggle svg {
+            width: 14px;
+            height: 14px;
+            stroke: var(--clr-text-muted);
+            fill: none;
+            stroke-width: 1.2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: stroke 0.3s ease;
+        }
+
+        .pw-toggle:hover svg {
+            stroke: var(--clr-gold);
+        }
+
+        /* Inline error */
+        .field-error {
+            display: none;
+            font-size: 0.58rem;
+            color: rgba(200, 80, 80, 0.85);
+            letter-spacing: 0.08em;
+            padding: 0.3rem 1.4rem 0;
+        }
+
+        .form-group.has-error .field-error {
+            display: block;
+        }
+
+        /* Forgot password link */
+        .auth-forgot {
+            display: block;
+            text-align: right;
+            font-size: 0.6rem;
+            letter-spacing: 0.12em;
+            color: var(--clr-text-muted);
+            margin-bottom: 1.5rem;
+            transition: color 0.25s ease;
+        }
+
+        .auth-forgot:hover {
+            color: var(--clr-gold);
+        }
+
+        /* Password strength bar */
+        .pw-strength {
+            height: 2px;
+            border-radius: 100px;
+            background: var(--clr-border);
+            margin-top: 6px;
+            overflow: hidden;
+        }
+
+        .pw-strength-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 100px;
+            transition: width 0.4s ease, background 0.4s ease;
+        }
+
+        .pw-strength-fill.weak {
+            width: 25%;
+            background: rgba(200, 80, 80, 0.7);
+        }
+
+        .pw-strength-fill.fair {
+            width: 50%;
+            background: rgba(200, 160, 60, 0.7);
+        }
+
+        .pw-strength-fill.good {
+            width: 75%;
+            background: rgba(100, 180, 100, 0.7);
+        }
+
+        .pw-strength-fill.strong {
+            width: 100%;
+            background: rgba(61, 170, 114, 0.85);
+        }
+
+        .pw-strength-label {
+            font-size: 0.52rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--clr-text-muted);
+            margin-top: 4px;
+            display: block;
+            padding: 0 1.4rem;
+        }
+
+
+        /* ── Submit Button (Gold Capsule) ─── */
+
+        .auth-submit-btn {
+            width: 100%;
+            padding: 1.05rem 2rem;
+            border-radius: 100px;
+            background: var(--clr-gold);
+            color: var(--clr-obsidian);
+            font-family: var(--ff-sans);
+            font-size: 0.62rem;
+            font-weight: var(--fw-bold);
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 1.75rem;
+            transition: background 0.35s ease, transform 0.2s ease;
+            animation: glow-breathe 4s ease-in-out infinite;
+        }
+
+        .auth-submit-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(110deg,
+                    transparent 0%,
+                    rgba(255, 255, 255, 0.25) 45%,
+                    transparent 55%,
+                    transparent 100%);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .auth-submit-btn:hover::before {
+            transform: translateX(100%);
+        }
+
+        .auth-submit-btn:hover {
+            background: var(--clr-gold-bright);
+            transform: translateY(-1px);
+        }
+
+        .auth-submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .auth-submit-btn.loading {
+            pointer-events: none;
+            opacity: 0.75;
+        }
+
+
+        /* ── Divider ─── */
+
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .auth-divider::before,
+        .auth-divider::after {
+            content: '';
+            flex: 1;
+            height: 0.5px;
+            background: var(--clr-border);
+        }
+
+        .auth-divider span {
+            font-size: 0.55rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--clr-text-muted);
+            white-space: nowrap;
+        }
+
+
+        /* ── Social Auth Buttons ─── */
+
+        .social-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.75rem;
+        }
+
+        /* Google — large, prominent */
+        .btn-google {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.85rem;
+            padding: 0.9rem 1.5rem;
+            border-radius: 100px;
+            border: 0.5px solid var(--clr-border);
+            background: rgba(255, 255, 255, 0.032);
+            color: var(--clr-text-secondary);
+            font-family: var(--ff-sans);
+            font-size: 0.68rem;
+            font-weight: var(--fw-medium);
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            transition: all 0.35s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-google::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.04);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.35s ease;
+        }
+
+        .btn-google:hover::before {
+            transform: scaleX(1);
+        }
+
+        .btn-google:hover {
+            border-color: rgba(176, 141, 87, 0.35);
+            color: var(--clr-text-primary);
+        }
+
+        .btn-google-icon {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
+        /* Small social row — Apple + X */
+        .social-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        .btn-social-small {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            padding: 0.75rem 1rem;
+            border-radius: 100px;
+            border: 0.5px solid var(--clr-border);
+            background: transparent;
+            color: var(--clr-text-muted);
+            font-family: var(--ff-sans);
+            font-size: 0.6rem;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-social-small svg {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+            flex-shrink: 0;
+        }
+
+        .btn-social-small:hover {
+            border-color: rgba(176, 141, 87, 0.35);
+            color: var(--clr-text-secondary);
+            background: rgba(255, 255, 255, 0.025);
+        }
+
+
+        /* ── Bottom switch link ─── */
+
+        .auth-switch {
+            text-align: center;
+            font-size: 0.65rem;
+            color: var(--clr-text-muted);
+            letter-spacing: 0.08em;
+        }
+
+        .auth-switch-btn {
+            background: none;
+            border: none;
+            padding: 0;
+            color: var(--clr-gold);
+            font-family: var(--ff-sans);
+            font-size: 0.65rem;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            text-decoration: none;
+            transition: color 0.25s ease;
+            display: inline;
+        }
+
+        .auth-switch-btn:hover {
+            color: var(--clr-gold-bright);
+        }
+
+
+        /* ── Terms checkbox ─── */
+
+        .auth-terms {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .auth-checkbox {
+            width: 14px;
+            height: 14px;
+            border: 0.5px solid var(--clr-border);
+            background: transparent;
+            flex-shrink: 0;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            margin-top: 2px;
+            position: relative;
+            transform: rotate(45deg);
+            transition: background 0.25s ease, border-color 0.25s ease;
+            border-radius: 0;
+        }
+
+        .auth-checkbox:checked {
+            background: var(--clr-gold);
+            border-color: var(--clr-gold);
+        }
+
+        .auth-checkbox:checked::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .auth-terms-text {
+            font-size: 0.6rem;
+            color: var(--clr-text-muted);
+            line-height: 1.75;
+            letter-spacing: 0.04em;
+        }
+
+        .auth-terms-text a {
+            color: var(--clr-gold);
+            transition: color 0.25s ease;
+        }
+
+        .auth-terms-text a:hover {
+            color: var(--clr-gold-bright);
+        }
+
+
+        /* ── Minimal centered logo (top of forms side on mobile) ─── */
+
+        .auth-minimal-logo {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 0.65rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .auth-minimal-logo .emblem {
+            width: 24px;
+            height: 24px;
+            position: relative;
+        }
+
+        .auth-minimal-logo .emblem::before,
+        .auth-minimal-logo .emblem::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 0.5px solid var(--clr-gold);
+        }
+
+        .auth-minimal-logo .emblem::before {
+            transform: rotate(45deg);
+            opacity: 0.6;
+        }
+
+        .auth-minimal-logo .emblem::after {
+            transform: rotate(45deg) scale(0.5);
+            background: rgba(176, 141, 87, 0.35);
+        }
+
+        .auth-minimal-logo span {
+            font-family: var(--ff-serif);
+            font-size: 0.88rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--clr-gold-light);
+        }
+
+
+        /* ══════════════════════════════════════════════════════
+       FOOTER — Minimal on auth page
+       ══════════════════════════════════════════════════════ */
+
+        .auth-footer {
+            background: var(--clr-obsidian);
+            border-top: 0.5px solid var(--clr-border);
+            padding: 1.25rem var(--section-px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 10;
+        }
+
+        .auth-footer-copy {
+            font-size: 0.58rem;
+            color: var(--clr-text-muted);
+            letter-spacing: 0.08em;
+        }
+
+        .auth-footer-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .auth-footer-links a {
+            font-size: 0.58rem;
+            color: var(--clr-text-muted);
+            letter-spacing: 0.08em;
+            transition: color 0.25s ease;
+        }
+
+        .auth-footer-links a:hover {
+            color: var(--clr-gold);
+        }
+
+
+        /* ══════════════════════════════════════════════════════
+       RESPONSIVE
+       ══════════════════════════════════════════════════════ */
+
+        @media (max-width: 900px) {
+            .auth-canvas {
+                grid-template-columns: 1fr;
+                height: auto;
+                min-height: 100vh;
+            }
+
+            .auth-brand {
+                height: 45vh;
+                min-height: 300px;
+            }
+
+            .brand-curve {
+                display: none;
+            }
+
+            .brand-content {
+                padding: 2rem 2rem 3rem;
+            }
+
+            .brand-tagline {
+                font-size: clamp(1.5rem, 6vw, 2.2rem);
+            }
+
+            .auth-forms {
+                padding: 0;
+            }
+
+            .auth-forms-scroll {
+                padding: 2.5rem 1.75rem 3rem;
+                max-height: none;
+                overflow-y: visible;
+            }
+
+            .auth-minimal-logo {
+                display: flex;
+            }
+
+            .auth-forms::before {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .brand-nav {
+                padding: 1.5rem 1.5rem;
+            }
+
+            .brand-content {
+                padding: 1.5rem 1.5rem 2.5rem;
+            }
+
+            .auth-forms-scroll {
+                padding: 2rem 1.25rem 2.5rem;
+            }
+
+            .social-row {
+                grid-template-columns: 1fr;
+            }
+
+            .auth-footer {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body data-auth-state="login">
+
+    <!-- Hidden global header (overridden by CSS) -->
+    <header id="site-header" aria-hidden="true" style="display:none!important"></header>
+    <nav id="nav-mobile-drawer" aria-hidden="true" style="display:none!important"></nav>
+
+    <!-- ══════════════════════════════════════════════════════
+       FULL CANVAS AUTH LAYOUT
+       ══════════════════════════════════════════════════════ -->
+    <div class="auth-canvas">
+
+        <!-- ── LEFT: BRANDING PANEL ───────────────────────── -->
+        <aside class="auth-brand" aria-label="Haylo Hotel branding">
+
+            <!-- Parallax backgrounds (state-driven) -->
+            <div class="brand-bg brand-bg-login" aria-hidden="true"></div>
+            <div class="brand-bg brand-bg-register" aria-hidden="true"></div>
+
+            <!-- Grain texture -->
+            <div class="brand-grain" aria-hidden="true"></div>
+
+            <!-- Cinematic overlay -->
+            <div class="brand-overlay" aria-hidden="true"></div>
+
+            <!-- Floating gold particles -->
+            <div class="brand-particles" aria-hidden="true">
+                <div class="particle" style="top:15%;left:20%;--dur:7s;--del:0s"></div>
+                <div class="particle" style="top:35%;left:75%;--dur:9s;--del:1.2s"></div>
+                <div class="particle" style="top:60%;left:45%;--dur:6s;--del:2.4s"></div>
+                <div class="particle" style="top:80%;left:15%;--dur:8s;--del:0.6s"></div>
+                <div class="particle" style="top:25%;left:58%;--dur:11s;--del:3.1s"></div>
+                <div class="particle" style="top:70%;left:82%;--dur:7.5s;--del:1.8s"></div>
+            </div>
+
+            <!-- Curved SVG separator -->
+            <svg class="brand-curve" viewBox="0 0 80 100" preserveAspectRatio="none" aria-hidden="true">
+                <path id="curve-path" d="M80,0 C50,20 50,80 80,100 L80,0 Z" />
+            </svg>
+
+            <!-- Top nav inside brand panel -->
+            <nav class="brand-nav" aria-label="Authentication navigation">
+                <!-- Logo -->
+                <a href="index.html" class="brand-logo" aria-label="Haylo Hotel — Home">
+                    <div class="brand-logo-emblem" aria-hidden="true"></div>
+                    <span class="brand-logo-text">Haylo</span>
+                </a>
+
+                <!-- Login / Register toggle -->
+                <div class="brand-toggle" role="group" aria-label="Switch between sign in and register">
+                    <div class="brand-toggle-indicator" aria-hidden="true"></div>
+                    <button type="button" class="brand-toggle-btn active" id="toggle-login" data-target="login"
+                        aria-pressed="true">
+                        Sign In
+                    </button>
+                    <button type="button" class="brand-toggle-btn" id="toggle-register" data-target="register"
+                        aria-pressed="false">
+                        Register
+                    </button>
+                </div>
+            </nav>
+
+            <!-- Brand hero text -->
+            <div class="brand-content">
+                <p class="brand-eyebrow">Concierge Portal</p>
+
+                <div class="brand-tagline-wrap">
+                    <h2 class="brand-tagline">
+                        <span class="tagline-login">
+                            Your Luxury<br />Legacy<br /><em>Begins Here</em>
+                        </span><span class="tagline-register">
+                            Join the<br />Circle of<br /><em>Distinction</em>
+                        </span>
+                    </h2>
+                </div>
+
+                <span class="brand-rule" aria-hidden="true"></span>
+
+                <div class="brand-stat" aria-label="48 Signature Suites">
+                    <span class="brand-stat-num">48</span>
+                    <span class="brand-stat-lbl">Signature Suites<br />Awaiting You</span>
+                </div>
+            </div>
+
+        </aside><!-- /auth-brand -->
+
+
+        <!-- ── RIGHT: FORMS PANEL ─────────────────────────── -->
+        <section class="auth-forms" aria-label="Authentication forms">
+            <div class="auth-forms-scroll">
+
+                <!-- Mobile-only logo -->
+                <div class="auth-minimal-logo" aria-hidden="true">
+                    <div class="emblem"></div>
+                    <span>Haylo Hotel</span>
+                </div>
+
+                <!-- Header -->
+                <div class="auth-header">
+                    <h1 class="auth-welcome">
+                        Welcome to <span>Haylo</span>
+                    </h1>
+                    <p class="auth-subtitle" style="position:relative; min-height:1.4rem;">
+                        <span class="auth-sub-login">Sign in to access your concierge portal.</span>
+                        <span class="auth-sub-register">Create your account and begin your stay.</span>
+                    </p>
+                </div>
+
+                <!-- Forms wrapper (relative positioning context) -->
+                <div style="position:relative;">
+
+                    <!-- ── LOGIN FORM ──────────────────────────── -->
+                    <form id="form-login" class="auth-form active" novalidate autocomplete="on"
+                        aria-label="Sign in form">
+
+                        <!-- Email -->
+                        <div class="form-group" id="lg-email-group">
+                            <input type="email" id="lg-email" name="email" class="auth-input"
+                                placeholder="Email address" autocomplete="email" required aria-required="true"
+                                aria-describedby="lg-email-error" />
+                            <span class="field-icon" aria-hidden="true">
+                                <svg viewBox="0 0 16 16">
+                                    <rect x="1" y="3" width="14" height="10" />
+                                    <path d="M1 3 L8 9 L15 3" />
+                                </svg>
+                            </span>
+                            <span class="field-error" id="lg-email-error" role="alert">Enter a valid email
+                                address</span>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="form-group" id="lg-pw-group">
+                            <input type="password" id="lg-password" name="password" class="auth-input"
+                                placeholder="Password" autocomplete="current-password" required aria-required="true"
+                                aria-describedby="lg-pw-error" />
+                            <button type="button" class="pw-toggle" aria-label="Toggle password visibility"
+                                data-target="lg-password">
+                                <svg viewBox="0 0 16 16" class="eye-open">
+                                    <path d="M1 8 C3 4 13 4 15 8 C13 12 3 12 1 8Z" />
+                                    <circle cx="8" cy="8" r="2" />
+                                </svg>
+                            </button>
+                            <span class="field-error" id="lg-pw-error" role="alert">Password is required</span>
+                        </div>
+
+                        <a href="#" class="auth-forgot">Forgot your password?</a>
+
+                        <!-- Submit -->
+                        <button type="submit" class="auth-submit-btn" id="login-submit-btn">
+                            Sign In to Haylo
+                        </button>
+
+                        <!-- Divider -->
+                        <div class="auth-divider">
+                            <span>Or continue with</span>
+                        </div>
+
+                        <!-- Social buttons -->
+                        <div class="social-buttons">
+                            <button type="button" class="btn-google" id="btn-google-login"
+                                aria-label="Continue with Google">
+                                <!-- Google SVG icon -->
+                                <svg class="btn-google-icon" viewBox="0 0 18 18" aria-hidden="true">
+                                    <path
+                                        d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"
+                                        fill="#4285F4" />
+                                    <path
+                                        d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"
+                                        fill="#34A853" />
+                                    <path
+                                        d="M3.964 10.706A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.706V4.962H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.038l3.007-2.332z"
+                                        fill="#FBBC05" />
+                                    <path
+                                        d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.962L3.964 7.294C4.672 5.163 6.656 3.58 9 3.58z"
+                                        fill="#EA4335" />
+                                </svg>
+                                Continue with Google
+                            </button>
+
+                            <div class="social-row">
+                                <button type="button" class="btn-social-small" aria-label="Continue with Apple">
+                                    <!-- Apple icon -->
+                                    <svg viewBox="0 0 14 16" aria-hidden="true">
+                                        <path
+                                            d="M13.5 12.3c-.3.7-.6 1.3-1.1 1.9-.6.8-1.2 1.1-1.8 1.1-.4 0-1-.1-1.7-.5-.7-.3-1.3-.5-1.9-.5-.6 0-1.2.2-1.9.5-.7.3-1.2.5-1.6.5-.7 0-1.3-.4-1.9-1.2-.5-.7-1-1.6-1.3-2.7C.1 10.4 0 9.3 0 8.2c0-1.3.3-2.4.9-3.3.5-.7 1.1-1.2 1.9-1.6.8-.4 1.6-.6 2.5-.6.5 0 1.1.1 1.9.4.7.3 1.2.4 1.4.4.2 0 .7-.2 1.5-.5.9-.3 1.5-.4 2.1-.4 1.5.1 2.6.7 3.3 1.9-1.3.8-2 2-2 3.4 0 1.1.4 2 1.1 2.7.3.3.7.6 1.1.8l-.2.6zM10 .6c0 .9-.3 1.7-.9 2.4C8.5 3.8 7.7 4.2 6.8 4.1c0-.1 0-.2-.1-.3 0-1 .4-1.9 1-2.5.3-.3.7-.6 1.2-.8.5-.2.9-.3 1.3-.3.1.1.1.2.1.3l-.3.1z" />
+                                    </svg>
+                                    Apple
+                                </button>
+                                <button type="button" class="btn-social-small" aria-label="Continue with X">
+                                    <!-- X icon -->
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path
+                                            d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                                    </svg>
+                                    Twitter / X
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Bottom switch -->
+                        <p class="auth-switch">
+                            Don't have an account?
+                            <button type="button" class="auth-switch-btn" data-target="register">
+                                Create account →
+                            </button>
+                        </p>
+
+                    </form><!-- /#form-login -->
+
+
+                    <!-- ── REGISTER FORM ───────────────────────── -->
+                    <form id="form-register" class="auth-form" novalidate autocomplete="on"
+                        aria-label="Create account form">
+
+                        <!-- Full Name -->
+                        <div class="form-group" id="rg-name-group">
+                            <input type="text" id="rg-name" name="fullname" class="auth-input" placeholder="Full name"
+                                autocomplete="name" required aria-required="true" aria-describedby="rg-name-error" />
+                            <span class="field-icon" aria-hidden="true">
+                                <svg viewBox="0 0 16 16">
+                                    <circle cx="8" cy="5" r="3" />
+                                    <path d="M2 14 Q2 10 8 10 Q14 10 14 14" />
+                                </svg>
+                            </span>
+                            <span class="field-error" id="rg-name-error" role="alert">Please enter your full name</span>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="form-group" id="rg-email-group">
+                            <input type="email" id="rg-email" name="email" class="auth-input"
+                                placeholder="Email address" autocomplete="email" required aria-required="true"
+                                aria-describedby="rg-email-error" />
+                            <span class="field-icon" aria-hidden="true">
+                                <svg viewBox="0 0 16 16">
+                                    <rect x="1" y="3" width="14" height="10" />
+                                    <path d="M1 3 L8 9 L15 3" />
+                                </svg>
+                            </span>
+                            <span class="field-error" id="rg-email-error" role="alert">Enter a valid email
+                                address</span>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="form-group" id="rg-pw-group">
+                            <input type="password" id="rg-password" name="password" class="auth-input"
+                                placeholder="Create password" autocomplete="new-password" required aria-required="true"
+                                aria-describedby="rg-pw-error" />
+                            <button type="button" class="pw-toggle" aria-label="Toggle password visibility"
+                                data-target="rg-password">
+                                <svg viewBox="0 0 16 16" class="eye-open">
+                                    <path d="M1 8 C3 4 13 4 15 8 C13 12 3 12 1 8Z" />
+                                    <circle cx="8" cy="8" r="2" />
+                                </svg>
+                            </button>
+                            <!-- Password strength indicator -->
+                            <div class="pw-strength" aria-hidden="true">
+                                <div class="pw-strength-fill" id="pw-strength-fill"></div>
+                            </div>
+                            <span class="pw-strength-label" id="pw-strength-label" aria-live="polite"></span>
+                            <span class="field-error" id="rg-pw-error" role="alert">Password must be at least 8
+                                characters</span>
+                        </div>
+
+                        <!-- Confirm Password -->
+                        <div class="form-group" id="rg-confirm-group">
+                            <input type="password" id="rg-confirm" name="confirm_password" class="auth-input"
+                                placeholder="Confirm password" autocomplete="new-password" required aria-required="true"
+                                aria-describedby="rg-confirm-error" />
+                            <button type="button" class="pw-toggle" aria-label="Toggle confirm password visibility"
+                                data-target="rg-confirm">
+                                <svg viewBox="0 0 16 16" class="eye-open">
+                                    <path d="M1 8 C3 4 13 4 15 8 C13 12 3 12 1 8Z" />
+                                    <circle cx="8" cy="8" r="2" />
+                                </svg>
+                            </button>
+                            <span class="field-error" id="rg-confirm-error" role="alert">Passwords do not match</span>
+                        </div>
+
+                        <!-- Terms -->
+                        <div class="auth-terms">
+                            <input type="checkbox" id="rg-terms" class="auth-checkbox" required aria-required="true" />
+                            <label for="rg-terms" class="auth-terms-text">
+                                I agree to the
+                                <a href="#">Terms of Service</a>
+                                and
+                                <a href="#">Privacy Policy</a>
+                                of Haylo Hotel &amp; Residences.
+                            </label>
+                        </div>
+
+                        <!-- Submit -->
+                        <button type="submit" class="auth-submit-btn" id="register-submit-btn">
+                            Create My Account
+                        </button>
+
+                        <!-- Divider -->
+                        <div class="auth-divider">
+                            <span>Or register with</span>
+                        </div>
+
+                        <!-- Social buttons -->
+                        <div class="social-buttons">
+                            <button type="button" class="btn-google" id="btn-google-register"
+                                aria-label="Continue with Google">
+                                <svg class="btn-google-icon" viewBox="0 0 18 18" aria-hidden="true">
+                                    <path
+                                        d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"
+                                        fill="#4285F4" />
+                                    <path
+                                        d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"
+                                        fill="#34A853" />
+                                    <path
+                                        d="M3.964 10.706A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.706V4.962H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.038l3.007-2.332z"
+                                        fill="#FBBC05" />
+                                    <path
+                                        d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.962L3.964 7.294C4.672 5.163 6.656 3.58 9 3.58z"
+                                        fill="#EA4335" />
+                                </svg>
+                                Continue with Google
+                            </button>
+
+                            <div class="social-row">
+                                <button type="button" class="btn-social-small" aria-label="Register with Apple">
+                                    <svg viewBox="0 0 14 16" aria-hidden="true">
+                                        <path
+                                            d="M13.5 12.3c-.3.7-.6 1.3-1.1 1.9-.6.8-1.2 1.1-1.8 1.1-.4 0-1-.1-1.7-.5-.7-.3-1.3-.5-1.9-.5-.6 0-1.2.2-1.9.5-.7.3-1.2.5-1.6.5-.7 0-1.3-.4-1.9-1.2-.5-.7-1-1.6-1.3-2.7C.1 10.4 0 9.3 0 8.2c0-1.3.3-2.4.9-3.3.5-.7 1.1-1.2 1.9-1.6.8-.4 1.6-.6 2.5-.6.5 0 1.1.1 1.9.4.7.3 1.2.4 1.4.4.2 0 .7-.2 1.5-.5.9-.3 1.5-.4 2.1-.4 1.5.1 2.6.7 3.3 1.9-1.3.8-2 2-2 3.4 0 1.1.4 2 1.1 2.7.3.3.7.6 1.1.8l-.2.6zM10 .6c0 .9-.3 1.7-.9 2.4C8.5 3.8 7.7 4.2 6.8 4.1c0-.1 0-.2-.1-.3 0-1 .4-1.9 1-2.5.3-.3.7-.6 1.2-.8.5-.2.9-.3 1.3-.3.1.1.1.2.1.3l-.3.1z"
+                                            fill="currentColor" />
+                                    </svg>
+                                    Apple
+                                </button>
+                                <button type="button" class="btn-social-small" aria-label="Register with X">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path
+                                            d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+                                            fill="currentColor" />
+                                    </svg>
+                                    Twitter / X
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Bottom switch -->
+                        <p class="auth-switch">
+                            Already have an account?
+                            <button type="button" class="auth-switch-btn" data-target="login">
+                                Sign in →
+                            </button>
+                        </p>
+
+                    </form><!-- /#form-register -->
+
+                </div><!-- /forms wrapper -->
+            </div><!-- /auth-forms-scroll -->
+        </section><!-- /auth-forms -->
+
+    </div><!-- /auth-canvas -->
+
+
+    <!-- ══════════════════════════════════════════════════════
+       MINIMAL AUTH FOOTER
+       ══════════════════════════════════════════════════════ -->
+    <footer class="auth-footer" role="contentinfo">
+        <p class="auth-footer-copy">
+            &copy; 2026 Haylo Hotel &amp; Residences. All rights reserved.
+        </p>
+        <nav class="auth-footer-links" aria-label="Footer links">
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+            <a href="contact.html">Support</a>
+            <a href="index.html">Back to Site</a>
+        </nav>
+    </footer>
+
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/auth.js"></script>
+
+</body>
+
+</html>

@@ -39,13 +39,14 @@
 
         .suites-hero-bg {
             position: absolute;
-            inset: 0;
-            background:
+            inset: -10%; /* Extra space for parallax */
+            background-image: 
                 radial-gradient(ellipse 80% 60% at 50% 30%, rgba(10, 43, 34, 0.4) 0%, transparent 65%),
                 linear-gradient(180deg, rgba(4, 8, 7, 0.3) 0%, rgba(4, 8, 7, 0.5) 55%, rgba(4, 8, 7, 0.98) 100%),
-                linear-gradient(135deg, #0a2218 0%, #040e09 40%, #040807 100%);
+                url('assets/images/rooms/Hero_image sect.png');
             background-size: cover;
             background-position: center;
+            will-change: transform;
         }
 
         /* Thin diagonal gold rule — purely decorative */
@@ -1210,6 +1211,51 @@
                 gap: 0.5rem 1rem;
             }
         }
+
+        /* ── Motion & Reveals ──────────────────────────────── */
+        @keyframes suite-fade-up {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), 
+                        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: opacity, transform;
+        }
+
+        .reveal-on-scroll.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero-entrance {
+            animation: suite-fade-up 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        .hero-entrance-delay-1 { animation-delay: 0.1s; }
+        .hero-entrance-delay-2 { animation-delay: 0.2s; }
+        .hero-entrance-delay-3 { animation-delay: 0.3s; }
+
+        /* Card entrance (triggered by JS) */
+        .room-card {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .room-card.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
 
@@ -1231,7 +1277,7 @@
             <nav aria-label="Primary navigation">
                 <ul class="nav-links">
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="suites.html" class="active">Suites</a></li>
+                    <li><a href="rooms.html" class="active">Suites</a></li>
                     <li><a href="heritage.html">Heritage</a></li>
                     <li><a href="contact.html">Contact</a></li>
                     <li><a href="dashboard.html">Dashboard</a></li>
@@ -1240,7 +1286,8 @@
 
             <div class="nav-actions">
                 <a href="tel:+256200000000" class="nav-tel" aria-label="Call us">+256 200 000 000</a>
-                <a href="#" class="nav-book-btn"><span>Reserve</span></a>
+                <a href="rooms.html" class="nav-book-btn"><span>Reserve</span></a>
+                <a href="auth.html" class="nav-login">Login</a>
                 <button class="nav-hamburger" id="nav-toggle" aria-label="Open menu" aria-expanded="false"
                     aria-controls="nav-mobile-drawer">
                     <span class="bar"></span>
@@ -1252,11 +1299,12 @@
 
         <nav id="nav-mobile-drawer" class="nav-mobile-drawer" aria-label="Mobile navigation" aria-hidden="true">
             <a href="index.html">Home</a>
-            <a href="suites.html">Suites &amp; Rooms</a>
+            <a href="rooms.html">Suites &amp; Rooms</a>
             <a href="heritage.html">Our Heritage</a>
             <a href="contact.html">Contact</a>
             <a href="dashboard.html">Guest Dashboard</a>
-            <a href="#" class="nav-mobile-cta">Reserve a Suite</a>
+            <a href="auth.html">Login</a>
+            <a href="rooms.html" class="nav-mobile-cta">Reserve a Suite</a>
         </nav>
     </header>
 
@@ -1268,11 +1316,11 @@
         <div class="suites-hero-bg" aria-hidden="true"></div>
 
         <div class="suites-hero-content">
-            <span class="section-label">Curated Accommodations</span>
-            <h1>Suites &amp;<br />Rooms</h1>
-            <p class="hero-sub"><span id="hero-sub-count">Nine</span> distinct sanctuaries — each a world of its own</p>
+            <span class="section-label hero-entrance">Curated Accommodations</span>
+            <h1 class="hero-entrance hero-entrance-delay-1">Suites &amp;<br />Rooms</h1>
+            <p class="hero-sub hero-entrance hero-entrance-delay-2"><span id="hero-sub-count">Nine</span> distinct sanctuaries — each a world of its own</p>
 
-            <div class="hero-count" aria-hidden="true">
+            <div class="hero-count hero-entrance hero-entrance-delay-3" aria-hidden="true">
                 <span class="num" id="total-rooms-count">09</span>
                 <span class="lbl">Accommodations</span>
             </div>
@@ -1335,7 +1383,7 @@
         </div>
 
         <!-- ── ① PRESIDENTIAL SUITES ──────────────────────── -->
-        <section class="room-category" id="cat-presidential" data-category="presidential"
+        <section class="room-category reveal-on-scroll" id="cat-presidential" data-category="presidential"
             aria-labelledby="cat-presidential-title">
             <div class="room-category-header">
                 <div class="room-category-meta">
@@ -1358,7 +1406,7 @@
 
 
         <!-- ── ② LAKESIDE RETREATS ────────────────────────── -->
-        <section class="room-category" id="cat-lakeside" data-category="lakeside" aria-labelledby="cat-lakeside-title">
+        <section class="room-category reveal-on-scroll" id="cat-lakeside" data-category="lakeside" aria-labelledby="cat-lakeside-title">
             <div class="room-category-header">
                 <div class="room-category-meta">
                     <span class="section-label">Waterfront Serenity</span>
@@ -1380,7 +1428,7 @@
 
 
         <!-- ── ③ STANDARD LUXURY ──────────────────────────── -->
-        <section class="room-category" id="cat-standard" data-category="standard" aria-labelledby="cat-standard-title">
+        <section class="room-category reveal-on-scroll" id="cat-standard" data-category="standard" aria-labelledby="cat-standard-title">
             <div class="room-category-header">
                 <div class="room-category-meta">
                     <span class="section-label">Refined Comfort</span>
@@ -1514,8 +1562,9 @@
                 <span class="footer-col-title">Navigate</span>
                 <ul>
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="suites.html">Suites &amp; Rooms</a></li>
-                    <li><a href="about.html">Our Heritage</a></li>
+                    <li><a href="rooms.html">Suites &amp; Rooms</a></li>
+                    <li><a href="heritage.html">Our Heritage</a></li>
+                    <li><a href="auth.html">Login</a></li>
                     <li><a href="dashboard.html">Guest Dashboard</a></li>
                     <li><a href="admin.html">Administration</a></li>
                 </ul>
@@ -1565,6 +1614,54 @@
     <script src="assets/js/main.js"></script>
     <script src="assets/js/suite.js"></script>
 
-</body>
+    <script>
+        /**
+         * ── Motion & Reveal Controllers ───────────────────────
+         */
+        (function() {
+            // 1. Hero Parallax
+            const heroBg = document.querySelector('.suites-hero-bg');
+            if (heroBg) {
+                window.addEventListener('scroll', () => {
+                    const scrolled = window.pageYOffset;
+                    // Move background slower than scroll for parallax depth
+                    heroBg.style.transform = `translateY(${scrolled * 0.25}px) scale(1.1)`;
+                }, { passive: true });
+            }
 
+            // 2. Scroll Reveal Observer
+            const revealOptions = {
+                threshold: 0.12,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                        // Once revealed, no need to observe again
+                        revealObserver.unobserve(entry.target);
+                    }
+                });
+            }, revealOptions);
+
+            // Observe category sections
+            document.querySelectorAll('.reveal-on-scroll').forEach(el => {
+                revealObserver.observe(el);
+            });
+
+            // 3. Dynamic Card Observer
+            // We wait slightly to ensure suite.js has rendered the cards
+            setTimeout(() => {
+                const cards = document.querySelectorAll('.room-card');
+                cards.forEach((card, index) => {
+                    // Stagger the cards slightly
+                    card.style.transitionDelay = `${(index % 3) * 0.1}s`;
+                    revealObserver.observe(card);
+                });
+            }, 400);
+        })();
+    </script>
+
+</body>
 </html>
