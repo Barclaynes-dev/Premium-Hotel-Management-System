@@ -206,6 +206,20 @@ header.scrolled {
 .nav-book-btn:hover::before { transform: scaleX(1); }
 .nav-book-btn:hover { color: var(--clr-obsidian); }
 
+.nav-login {
+  font-family: var(--ff-sans);
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--clr-text-muted);
+  transition: color 0.35s ease;
+  z-index: 2;
+}
+
+.nav-login:hover {
+  color: var(--clr-gold);
+}
+
 /* ─── Hamburger (Mobile) ─── */
 .nav-hamburger {
   display: none;

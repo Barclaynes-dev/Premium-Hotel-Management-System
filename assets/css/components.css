@@ -587,6 +587,14 @@
   transform: scale(1.07);
 }
 
+/* Ensure images fill the background container */
+.bento-card-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 /* Individual card color personalities (image fallback) */
 .bento-penthouse .bento-card-bg {
   background-image: url('../images/rooms/penthouse.jpg');
