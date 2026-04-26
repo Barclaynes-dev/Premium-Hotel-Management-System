@@ -37,9 +37,9 @@
                 'and a 270° panoramic glass wall ensure the city feels both intimate and limitless. ' +
                 'Your dedicated butler is on call around the clock. This is not a room — it is a private estate.',
             images: {
-                main: 'assets/images/rooms/Test_Image 12.jpg',
-                thumb1: 'assets/images/rooms/Test_image 10.jpg',
-                thumb2: 'assets/images/rooms/Test_image 11.jpg',
+                main: 'assets/images/rooms/higher deal.png',
+                thumb1: 'assets/images/rooms/thumb1.jpg',
+                thumb2: 'assets/images/rooms/Test_image 31.jpg',
             },
             facilities: [
                 { icon: 'wifi', label: 'Private 10GB Wi-Fi' },
@@ -48,9 +48,10 @@
                 { icon: 'bar', label: 'Stocked Champagne Bar' },
                 { icon: 'spa', label: 'In-Suite Spa Services' },
                 {
-                    icon: 'kitchen', label: 'Private Chef\'s Kitchen' },
-        { icon: 'cinema', label: 'Private Screening Room' },
-        { icon: 'security', label: 'Dedicated Security' },
+                    icon: 'kitchen', label: 'Private Chef\'s Kitchen'
+                },
+                { icon: 'cinema', label: 'Private Screening Room' },
+                { icon: 'security', label: 'Dedicated Security' },
                 { icon: 'transfer', label: 'Airport Transfer' },
                 { icon: 'laundry', label: 'Express Laundry' },
             ],
@@ -70,7 +71,7 @@
                 'by soundproof glass that renders the world entirely yours. A second bedroom with twin ' +
                 'beds is available for family or trusted guests. Service here is not offered — it is anticipated.',
             images: {
-                main: 'assets/images/rooms/Test_image 13.jpg',
+                main: 'assets/images/rooms/Test_image 31.jpg',
                 thumb1: 'assets/images/rooms/Test_image 14.jpg',
                 thumb2: 'assets/images/rooms/Test_image 15.jpg',
             },
@@ -99,10 +100,10 @@
             description:
                 'Step directly from your living room onto a private shaded terrace that opens to ' +
                 'a curated garden descending to the lake\'s edge.The interiors are woven from natural ' +
-        'materials — hand-laid stone, raw linen, reclaimed cedar — evoking a sense of place ' +
+                'materials — hand-laid stone, raw linen, reclaimed cedar — evoking a sense of place ' +
                 'that feels ancient and contemporary at once. Evenings here are measured in sunsets.',
             images: {
-                main: 'assets/images/rooms/Test_image 16.jpg',
+                main: 'assets/images/rooms/Test_image 50.jpg',
                 thumb1: 'assets/images/rooms/Test_image 17.jpg',
                 thumb2: 'assets/images/rooms/Test_image 18.jpg',
             },
@@ -132,7 +133,7 @@
                 'the water. Afternoons for long lunches in the shade of the bamboo screen. ' +
                 'The interior follows suit — generous, unhurried, and impeccably detailed.',
             images: {
-                main: 'assets/images/rooms/Test_image 19.jpg',
+                main: 'assets/images/rooms/Test_image 25.jpg',
                 thumb1: 'assets/images/rooms/Test_image 2.jpg',
                 thumb2: 'assets/images/rooms/Test_image 20.jpg',
             },
@@ -162,7 +163,7 @@
                 'footprint differs. The lake is yours to wake to, and the quality of quiet ' +
                 'that greets you each morning is something photographs cannot adequately convey.',
             images: {
-                main: 'assets/images/rooms/Test_image 21.jpg',
+                main: 'assets/images/rooms/Test_image 49.jpg',
                 thumb1: 'assets/images/rooms/Test_image 22.jpg',
                 thumb2: 'assets/images/rooms/Test_image 23.jpg',
             },
@@ -193,7 +194,7 @@
                 'display, ergonomic workspace, and bespoke concierge support ensure you arrive to every ' +
                 'appointment fully prepared.',
             images: {
-                main: 'assets/images/rooms/Test_image 24.jpg',
+                main: 'assets/images/rooms/Test_image 48.jpg',
                 thumb1: 'assets/images/rooms/Test_image 25.jpg',
                 thumb2: 'assets/images/rooms/Test_image 26.jpg',
             },
@@ -225,7 +226,7 @@
                 'both a deep-soak tub and walk-in rain shower. Curated local art lines the walls, ' +
                 'and every surface tells the story of where you are without ever needing to explain itself.',
             images: {
-                main: 'assets/images/rooms/Test_image 27.jpg',
+                main: 'assets/images/rooms/Test_image 23.jpg',
                 thumb1: 'assets/images/rooms/Test_image 3.jpg',
                 thumb2: 'assets/images/rooms/Test_image 4.jpg',
             },
@@ -285,7 +286,7 @@
                 'bespoke bedding, and a polished stone bathroom await. This is the rare room where ' +
                 'smaller means nothing other than more carefully considered.',
             images: {
-                main: 'assets/images/rooms/Test_image 8.jpg',
+                main: 'assets/images/rooms/Test_image 15.jpg',
                 thumb1: 'assets/images/rooms/Test_image 9.jpg',
                 thumb2: 'assets/images/rooms/Test_image.jpg',
             },
@@ -302,7 +303,7 @@
         },
 
 
-        
+
         'horizon-penthouse': {
             name: 'The Horizon Penthouse',
             category: 'Presidential Suite',
@@ -314,7 +315,7 @@
             description:
                 'A spectacular sanctuary floating above the city. Features a wraparound glass balcony, a grand piano in the living space, and a marble soaking tub positioned directly against the skyline.',
             images: {
-                main: 'assets/images/rooms/Test_image 2.jpg',
+                main: 'assets/images/rooms/heightens2.png',
                 thumb1: 'assets/images/rooms/Test_image 3.jpg',
                 thumb2: 'assets/images/rooms/Test_image 4.jpg',
             },
@@ -336,7 +337,7 @@
             description:
                 'Designed for dignitaries and heads of state. Imposing, secure, and infinitely luxurious, featuring a private dining room that seats ten, a dedicated study, and discreet staff entrances.',
             images: {
-                main: 'assets/images/rooms/Test_image 5.jpg',
+                main: 'assets/images/rooms/heighten.png',
                 thumb1: 'assets/images/rooms/Test_image 6.jpg',
                 thumb2: 'assets/images/rooms/Test_image 7.jpg',
             },
@@ -358,7 +359,7 @@
             description:
                 'A refined blend of diplomatic elegance and modern comfort. Includes a private screening room, a curated library of African literature, and a sun-drenched private courtyard.',
             images: {
-                main: 'assets/images/rooms/Test_image 8.jpg',
+                main: 'assets/images/rooms/Test_image 7.jpg',
                 thumb1: 'assets/images/rooms/Test_image 9.jpg',
                 thumb2: 'assets/images/rooms/Test_image 10.jpg',
             },
@@ -380,7 +381,7 @@
             description:
                 'A standalone villa nestled in the lush gardens by the water\'s edge. Features a private fire pit, outdoor rain shower, and direct, uninterrupted access to a secluded lakeside deck.',
             images: {
-                main: 'assets/images/rooms/Test_image 11.jpg',
+                main: 'assets/images/rooms/Test_image 51.jpg',
                 thumb1: 'assets/images/rooms/Test_image 12.jpg',
                 thumb2: 'assets/images/rooms/Test_image 13.jpg',
             },
@@ -402,7 +403,7 @@
             description:
                 'Elevated on the second floor of the lakeside wing, this suite boasts an extended cantilevered balcony offering breathtaking, unobstructed sunset views over the water.',
             images: {
-                main: 'assets/images/rooms/Test_image 14.jpg',
+                main: 'assets/images/rooms/Test_image 16.jpg',
                 thumb1: 'assets/images/rooms/Test_image 15.jpg',
                 thumb2: 'assets/images/rooms/Test_image 16.jpg',
             },
@@ -424,7 +425,7 @@
             description:
                 'Wrapping around the edge of the property, this dual-aspect room captures both the morning light filtering through the gardens and the gentle evening breeze off the lake.',
             images: {
-                main: 'assets/images/rooms/Test_image 17.jpg',
+                main: 'assets/images/rooms/Test_image 14.jpg',
                 thumb1: 'assets/images/rooms/Test_image 18.jpg',
                 thumb2: 'assets/images/rooms/Test_image 19.jpg',
             },
@@ -446,7 +447,7 @@
             description:
                 'A sprawling, open-plan suite tailored for extended stays, featuring a separate working lounge and a deep soaking tub.',
             images: {
-                main: 'assets/images/rooms/Test_image 20.jpg',
+                main: 'assets/images/rooms/Test_image 52.jpg',
                 thumb1: 'assets/images/rooms/Test_image 21.jpg',
                 thumb2: 'assets/images/rooms/Test_image 22.jpg',
             },
@@ -468,7 +469,7 @@
             description:
                 'Focused on seamless productivity and deep rest, offering an ergonomic workspace and high-fidelity soundproofing.',
             images: {
-                main: 'assets/images/rooms/Test_image 23.jpg',
+                main: 'assets/images/rooms/Test_image 54.jpg',
                 thumb1: 'assets/images/rooms/Test_image 24.jpg',
                 thumb2: 'assets/images/rooms/Test_image 25.jpg',
             },
@@ -490,7 +491,7 @@
             description:
                 'Bathed in natural light from two sides, featuring bespoke mid-century furnishings and expansive city views.',
             images: {
-                main: 'assets/images/rooms/Test_image 26.jpg',
+                main: 'assets/images/rooms/Test_image 45.jpg',
                 thumb1: 'assets/images/rooms/Test_image 27.jpg',
                 thumb2: 'assets/images/rooms/Test_image.jpg',
             },
@@ -512,7 +513,7 @@
             description:
                 'Designed for pairs or small families, offering two plush queen beds, generous wardrobe space, and a marble-clad bathroom.',
             images: {
-                main: 'assets/images/rooms/Test_image 2.jpg',
+                main: 'assets/images/rooms/Test_image 55.jpg',
                 thumb1: 'assets/images/rooms/Test_image 3.jpg',
                 thumb2: 'assets/images/rooms/Test_image 4.jpg',
             },
@@ -534,7 +535,7 @@
             description:
                 'Harmonious and highly functional, featuring two luxury single beds and a cozy reading alcove overlooking the courtyard.',
             images: {
-                main: 'assets/images/rooms/Test_image 5.jpg',
+                main: 'assets/images/rooms/Test_image 43.jpg',
                 thumb1: 'assets/images/rooms/Test_image 6.jpg',
                 thumb2: 'assets/images/rooms/Test_image 7.jpg',
             },
@@ -556,7 +557,7 @@
             description:
                 'An intimate, perfectly appointed cocoon for the solo traveler. Small in footprint but immense in luxury, featuring a custom single bed.',
             images: {
-                main: 'assets/images/rooms/Test_image 8.jpg',
+                main: 'assets/images/rooms/Test_image 19.jpg',
                 thumb1: 'assets/images/rooms/Test_image 9.jpg',
                 thumb2: 'assets/images/rooms/Test_image 10.jpg',
             },
@@ -622,7 +623,7 @@
         rangeFill.style.left = leftPct + '%';
         rangeFill.style.right = rightPct + '%';
 
-                if (priceDisplay) {
+        if (priceDisplay) {
             priceDisplay.textContent = formatUGX(minVal) + ' — ' + formatUGX(maxVal);
         }
     }
@@ -654,7 +655,7 @@
     updateRangeFill();
 
 
-    
+
     /* ──────────────────────────────────────────────────────
        §1.5  DYNAMIC DOM RENDERING
     ────────────────────────────────────────────────────── */
@@ -745,7 +746,7 @@
         const countStd = document.getElementById('count-standard');
         const countTotal = document.getElementById('total-rooms-count');
         const heroSubCount = document.getElementById('hero-sub-count');
-        
+
         if (countPres) countPres.textContent = counts['Presidential Suite'].toString().padStart(2, '0');
         if (countLake) countLake.textContent = counts['Lakeside Retreat'].toString().padStart(2, '0');
         if (countStd) countStd.textContent = counts['Standard Luxury'].toString().padStart(2, '0');
@@ -764,7 +765,7 @@
     const resetBtn = document.getElementById('filter-reset');
     const filterBadge = document.getElementById('filter-badge');
     const noResultsMsg = document.getElementById('no-results');
-    
+
     // We must query after rendering
     const allCards = Array.from(document.querySelectorAll('.room-card'));
     const allCategories = Array.from(document.querySelectorAll('.room-category'));
@@ -906,7 +907,8 @@
             view: '<circle cx="8" cy="8" r="3"/><circle cx="8" cy="8" r="6" opacity="0.4"/>',
             bath: '<path d="M3 10 Q3 6 8 6 Q13 6 13 10 H3"/><line x1="1" y1="10" x2="15" y2="10"/><path d="M5 12 v2 M11 12 v2"/><path d="M6 6 V3 Q6 1 8 1 Q10 1 10 3"/>',
             tv: '<rect x="2" y="3" width="12" height="8" rx="0"/><path d="M6 11 v3 M10 11 v3 M4 14 h8"/>',
-            terrace: '<path d="M1 14 h14 M1 10 L8 3 L15 10 M4 14 V10 M12 14 V10"/>',};
+            terrace: '<path d="M1 14 h14 M1 10 L8 3 L15 10 M4 14 V10 M12 14 V10"/>',
+        };
 
         const d = paths[key] || paths['view'];
         return (
